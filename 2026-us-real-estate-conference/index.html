@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>講師會前 Briefing｜飄團 2026 海外房地產分享會</title>
+  <style>
+    :root {
+      --ink:#172033;
+      --muted:#647084;
+      --line:#d9deea;
+      --paper:#f6f3ee;
+      --card:#fffdfa;
+      --blue:#17365f;
+      --gold:#c99a4e;
+      --rust:#9f5134;
+      --green:#246b5a;
+      --shadow:0 16px 40px rgba(23,32,51,.10);
+    }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Noto Sans TC","Noto Sans JP","PingFang TC","Microsoft JhengHei",Arial,sans-serif; color:var(--ink); background:var(--paper); line-height:1.65; }
+    a { color:inherit; }
+    .lang-page { display:none; }
+    .lang-page.active { display:block; }
+    .wrap { width:min(1180px, calc(100% - 32px)); margin:0 auto; }
+    .hero { background:linear-gradient(130deg, rgba(18,38,68,.94), rgba(36,107,90,.76)), url("assets/event-banner.png") center/cover; color:white; padding:42px 0 52px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:12px; flex-wrap:wrap; }
+    .lang-switch { display:inline-flex; gap:6px; padding:5px; border:1px solid rgba(255,255,255,.32); border-radius:999px; background:rgba(255,255,255,.12); }
+    .lang-switch button { appearance:none; border:0; border-radius:999px; padding:7px 11px; background:transparent; color:white; font-weight:800; cursor:pointer; }
+    .lang-switch button.active { background:white; color:var(--blue); }
+    .hero h1 { margin:20px 0 12px; font-size:clamp(34px, 7vw, 76px); line-height:1.08; letter-spacing:0; }
+    .hero p { max-width:850px; font-size:clamp(17px,2vw,24px); margin:0 0 24px; color:#f1eadf; }
+    .eyebrow { display:inline-flex; gap:10px; align-items:center; padding:8px 12px; border:1px solid rgba(255,255,255,.35); border-radius:999px; background:rgba(255,255,255,.10); backdrop-filter:blur(8px); font-weight:700; }
+    .meta-grid { display:grid; grid-template-columns:repeat(2, minmax(180px, 280px)); gap:12px; margin-top:28px; }
+    .meta { border:1px solid rgba(255,255,255,.24); background:rgba(255,255,255,.12); padding:16px; border-radius:8px; min-height:98px; }
+    .meta span { display:block; color:#d7ddea; font-size:13px; font-weight:700; }
+    .meta b { display:block; font-size:26px; margin-top:6px; }
+    nav { position:sticky; top:0; z-index:5; background:rgba(246,243,238,.92); backdrop-filter:blur(12px); border-bottom:1px solid var(--line); }
+    nav .wrap { display:flex; gap:10px; overflow:auto; padding:10px 0; }
+    nav a { white-space:nowrap; text-decoration:none; font-weight:800; font-size:14px; padding:8px 12px; border-radius:999px; background:white; border:1px solid var(--line); }
+    section.band { padding:38px 0; }
+    h2 { font-size:clamp(26px,4vw,42px); line-height:1.2; margin:0 0 14px; }
+    .lead { color:var(--muted); font-size:18px; max-width:900px; margin:0 0 22px; }
+    .cards { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+    .stat-card { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:18px; box-shadow:var(--shadow); }
+    .stat-card span { display:block; color:var(--muted); font-weight:700; font-size:14px; }
+    .stat-card b { display:block; font-size:34px; line-height:1; margin:8px 0; color:var(--blue); }
+    .panel { background:var(--card); border:1px solid var(--line); border-radius:8px; box-shadow:var(--shadow); padding:22px; }
+    .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+    .bar-row { margin:0 0 13px; }
+    .bar-top { display:flex; justify-content:space-between; gap:14px; font-size:15px; }
+    .bar-top span { overflow-wrap:anywhere; }
+    .bar-top b { white-space:nowrap; color:var(--blue); }
+    .bar { height:9px; background:#e7e3dc; border-radius:99px; overflow:hidden; margin-top:6px; }
+    .bar span { display:block; height:100%; background:linear-gradient(90deg,var(--gold),var(--green)); border-radius:99px; }
+    .speaker-card { width:min(1180px, calc(100% - 32px)); margin:18px auto; display:grid; grid-template-columns:340px 1fr; gap:0; background:var(--card); border:1px solid var(--line); border-radius:8px; overflow:hidden; box-shadow:var(--shadow); }
+    .speaker-media { background:#e8edf2; min-height:360px; }
+    .speaker-media img { width:100%; height:100%; object-fit:cover; display:block; }
+    .speaker-body { padding:24px; }
+    .speaker-kicker { display:inline-block; color:var(--rust); font-size:14px; font-weight:900; background:#f7eadb; border:1px solid #ecd5b8; padding:5px 9px; border-radius:999px; }
+    .speaker-body h3 { font-size:32px; line-height:1.15; margin:14px 0 4px; }
+    .role { color:var(--muted); margin:0 0 16px; font-weight:700; }
+    .cols { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    h4 { margin:0 0 8px; font-size:17px; color:var(--blue); }
+    ul { padding-left:1.2em; margin:0; }
+    li { margin:0 0 7px; }
+    .question-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+    .question-card { background:white; border:1px solid var(--line); border-left:5px solid var(--gold); border-radius:8px; padding:16px; }
+    .question-card b { color:var(--rust); }
+    .question-card p { margin:6px 0 0; }
+    footer { padding:34px 0; color:var(--muted); font-size:14px; }
+    @media (max-width:900px) {
+      .meta-grid,.cards,.grid-2,.cols,.question-grid { grid-template-columns:1fr; }
+      .speaker-card { grid-template-columns:1fr; }
+      .speaker-media { max-height:280px; }
+      .hero { padding-top:30px; }
+    }
+  </style>
+</head>
+<body>
+  
+    <div class="lang-page" data-page-lang="zh">
+      <header class="hero">
+        <div class="wrap">
+          <div class="topbar">
+            <div class="eyebrow">講師會前 Briefing · Accupass 已完成報名資料</div>
+            <div class="lang-switch" aria-label="Language">
+              <button type="button" data-lang="zh">繁中</button>
+              <button type="button" data-lang="en">EN</button>
+              <button type="button" data-lang="ja">日本語</button>
+            </div>
+          </div>
+          <h1>飄團 2026 海外房地產分享會</h1>
+          <p>根據目前已完成付款的報名問卷，整理出來賓最關心的州別、投資原因、預算輪廓與具體提問，方便八位講者在活動前快速掌握客群。</p>
+          <div class="meta-grid">
+            <div class="meta"><span>已完成付款</span><b>43</b><span>筆報名</span></div>
+            <div class="meta"><span>整理日期</span><b>2026/08/08</b><span>台灣時間</span></div>
+          </div>
+        </div>
+      </header>
+      <nav><div class="wrap"><a href="#summary-zh">總覽</a><a href="#states-zh">州別與主題</a><a href="#speakers-zh">講師重點</a><a href="#questions-zh">來賓問題</a><a href="#actions-zh">建議行動</a></div></nav>
+      <main>
+        <section class="band" id="summary-zh">
+          <div class="wrap">
+            <h2>客群快速判讀</h2>
+            <p class="lead">目前來賓不是只想聽「哪裡會漲」，而是想知道如何安全地跨境持有、如何出租管理、如何選州別，以及稅務與資產傳承要怎麼先規劃。</p>
+            <div class="cards"><div class="stat-card"><span>最高需求主題</span><b>36</b>美國稅務 / CPA</div><div class="stat-card"><span>最熱門州別</span><b>25</b>Phoenix / Dallas 並列</div><div class="stat-card"><span>購買時間</span><b>40</b>多數仍在研究期</div><div class="stat-card"><span>參加方式</span><b>36</b>偏線上學習</div></div>
+          </div>
+        </section>
+        <section class="band" id="states-zh">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>感興趣州別</h2><div class="bar-row"><div class="bar-top"><span>德州（達拉斯 Dallas）</span><b>26 人</b></div><div class="bar"><span style="width:60%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>亞利桑那州（鳳凰城 Phoenix）</span><b>25 人</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>加州南部（Southern California）</span><b>25 人</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>加州北部（Northern California）</span><b>24 人</b></div><div class="bar"><span style="width:56%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>其他／尚未確定</span><b>23 人</b></div><div class="bar"><span style="width:53%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>麻薩諸塞州（波士頓 Boston）</span><b>18 人</b></div><div class="bar"><span style="width:42%"></span></div></div></div>
+            <div class="panel"><h2>最想深入了解</h2><div class="bar-row"><div class="bar-top"><span>美國稅務、CPA 與申報重點</span><b>36 人</b></div><div class="bar"><span style="width:84%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>跨境資產配置與資金規劃</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>各州市場比較與物件選擇</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>出租與遠端物業管理</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>持有架構與資產傳承</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>美國貸款與購屋流程</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>其他</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div></div>
+          </div>
+        </section>
+        <section class="band">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>參加原因</h2><div class="bar-row"><div class="bar-top"><span>投資／穩定租金收益</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>海外資產配置／分散風險</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>移民／留學／自住／退休規劃</span><b>30 人</b></div><div class="bar"><span style="width:70%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>資產傳承／家族規劃／持有架構</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>比較各地市場趨勢與物件選擇</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>美國貸款與購屋流程</span><b>24 人</b></div><div class="bar"><span style="width:56%"></span></div></div></div>
+            <div class="panel">
+              <h2>預算與準備度</h2>
+              <h4>購買預算</h4>
+              <div class="bar-row"><div class="bar-top"><span>尚未決定，想先看看市場</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$1,000–2,000 萬</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$1,000 萬以下</span><b>4 人</b></div><div class="bar"><span style="width:9%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$3,000 萬以上</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$2,000–3,000 萬</span><b>2 人</b></div><div class="bar"><span style="width:5%"></span></div></div>
+              <h4 style="margin-top:22px">年齡輪廓</h4>
+              <div class="bar-row"><div class="bar-top"><span>46~50 歲</span><b>13 人</b></div><div class="bar"><span style="width:30%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>41~45 歲</span><b>10 人</b></div><div class="bar"><span style="width:23%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>36~40 歲</span><b>7 人</b></div><div class="bar"><span style="width:16%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>61歲以上</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>51~55 歲</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>56~60 歲</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div>
+            </div>
+          </div>
+        </section>
+        <section class="band" id="speakers-zh">
+          <div class="wrap">
+            <h2>八位講者會前重點</h2>
+            <p class="lead">以下依照報名問卷的州別、主題與開放問題，整理每位講者可優先準備的內容。</p>
+          </div>
+          
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-sabrina.png" alt="Sabrina Woodhall"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">亞利桑那州（鳳凰城 Phoenix） · 25 人</div>
+                <h3>Sabrina Woodhall</h3>
+                <p class="role">Arizona / Phoenix 市場、住宅買賣、商業地產、出租媒合</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>Phoenix 與 Arizona 是目前最熱門的州別之一，與 Dallas 並列第一。</li><li>來賓會想聽市場是否還有漲勢、TSMC 與台積電供應鏈是否仍支撐租屋需求。</li><li>請準備適合海外買家的區域、價格帶、租客輪廓與風險提醒。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>Phoenix 現在房價、租金與空置率趨勢如何？</li><li>海外投資客比較適合住宅、商業地產，還是出租媒合型標的？</li><li>哪些區域適合長租、短租或中期出租？</li><li>Arizona 投資的常見誤區與避雷重點是什麼？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-hannah.png" alt="Hannah Hsu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">德州（達拉斯 Dallas） · 26 人</div>
+                <h3>Hannah Hsu</h3>
+                <p class="role">Texas / Dallas 市場、選區、地產投資趨勢、生活與移居</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>Dallas 與 Phoenix 同為最高興趣州別，適合放在主軸市場比較。</li><li>來賓關注投資、自住、移居、教育與區域選擇，不只是單純報酬率。</li><li>可加入從加州移居 Dallas 的實務經驗，以及生活圈與學區差異。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>Dallas 哪些區域適合投資，哪些適合自住或家庭移居？</li><li>Dallas 與 Phoenix、加州相比，租金報酬與風險差在哪裡？</li><li>買房前如何判斷社區、學區、治安與未來發展？</li><li>是否需要 staging、修繕或物件包裝才能提高出租或轉售表現？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-shelby.png" alt="Shelby Wu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">加州南部（Southern California） · 25 人</div>
+                <h3>Shelby Wu</h3>
+                <p class="role">Southern California、住宅買賣、投資置產、1031 Exchange、出租管理資源整合</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>南加州興趣度很高，來賓會想知道高房價市場還能不能進場。</li><li>資料顯示來賓關心穩定租金、資產配置、學區與不同投資目的的切入方式。</li><li>可強調不同目的：自住、出租、資產保值、1031 Exchange，各自該怎麼選。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>南加州高房價下，哪些買法仍有合理回報？</li><li>不同城市或學區的租客族群、空置風險與管理難度如何？</li><li>1031 Exchange 對海外或跨州資產配置有什麼實用情境？</li><li>南加州房屋裝修、維護與出租管理有哪些容易低估的成本？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-yuen.png" alt="Yu-En Tsai"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">加州北部（Northern California） · 24 人</div>
+                <h3>Yu-En Tsai</h3>
+                <p class="role">Northern California / Bay Area、科技業需求、舊金山灣區房地產</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>北加州興趣度與南加州相同，特別適合談科技業與高薪租客需求。</li><li>來賓中有資訊、工程、教育研究、不動產背景，對區域邏輯會有耐心聽細節。</li><li>可用 Bay Area 不同區域風土民情、交通、公司聚落與租客輪廓切入。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>灣區不同城市的投資邏輯有何差異？</li><li>科技業趨勢、遠端工作與 AI 產業對房市的影響是什麼？</li><li>工程師租客、家庭租客與學生族群，各自適合哪些產品？</li><li>全屋裝修、ADU 或加值型策略是否適合海外投資人？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-amelie.png" alt="Amelie Cheng"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">麻薩諸塞州（波士頓 Boston） · 18 人</div>
+                <h3>Amelie Cheng</h3>
+                <p class="role">Massachusetts / Boston 市場、教育城市、東岸資產配置</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>Boston 在報名問卷中有明確需求，不應被忽略。</li><li>來賓關心教育、留學、自住、退休與資產傳承，Boston 適合用教育城市與長期持有角度說明。</li><li>可準備 Boston / Massachusetts 和其他州在價格、租客、法規、管理難度上的差異。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>Boston 適合哪一類投資人？教育、自住、出租或長期資產配置？</li><li>學生租屋、家庭租屋與高收入工作族群的需求差異為何？</li><li>Massachusetts 與 Phoenix、Dallas、加州相比，進場門檻與風險差在哪裡？</li><li>外國人持有 Boston 房產的稅務與遺產規劃有哪些要先知道？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-lydia.png" alt="Lydia Lee"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">出租與遠端物業管理 · 31 人</div>
+                <h3>Lydia Lee</h3>
+                <p class="role">Airbnb / 出租管理、遠端營運、物業管理與風險控管</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>出租與遠端管理有 13 位已付款來賓勾選，是最需要實戰案例的主題之一。</li><li>開放問題直接提到買進整修後出租、短期翻修轉售、短租、中期出租、多戶住宅與租客族群。</li><li>可用真實營運流程講清楚：選址、採買、上架、清潔、維修、定價與平台風險。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>買進整修後出租、短期翻修轉售、短租、中期出租、多戶住宅，各自適合什麼市場？</li><li>海外屋主如何管理清潔、維修、客訴、保險與緊急狀況？</li><li>哪些物件不適合做 Airbnb 或短租？</li><li>遠端營運最常被低估的成本與人力安排是什麼？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kevin.png" alt="Kevin Huang"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">美國稅務、CPA 與申報重點 · 36 人</div>
+                <h3>Kevin Huang</h3>
+                <p class="role">USCPA / EA、美國稅務、跨境稅務、LLC / Trust / Estate Planning</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>稅務是目前最高需求主題，16 位來賓勾選。</li><li>持有架構與資產傳承有 15 位勾選，且開放問題明確問到 LLC、不可撤銷信託、遺產稅、贈與稅、OBU 公司。</li><li>這場建議務必講到外國人持有美國房產的常見架構、申報與繼承風險。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>非美國籍個人持有美國房產，如何降低未來遺產稅與繼承程序風險？</li><li>個人、LLC、OBU 公司、Trust 持有房產的差異是什麼？</li><li>出租收入、資本利得、州稅、FBAR / FATCA 可能涉及哪些申報？</li><li>買房前應該先問 CPA 哪些問題，避免之後架構重做？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kenny.png" alt="Kenny Lin"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">日本現場與跨境配置 · 7 人</div>
+                <h3>Kenny Lin</h3>
+                <p class="role">日本在地、不動產、日本生活、移民業務、資產配置連結</p>
+                <div class="cols">
+                  <div><h4>會前重點</h4><ul><li>雖然問卷主軸是美國房地產，但活動在東京，日本在地信任感很重要。</li><li>可補強日本參加者最在意的付款、語言、跨境溝通、匯款、後續服務與日本房產比較。</li><li>Kenny 的角色適合做日本參加者與美國講師之間的轉譯與風險提示。</li></ul></div>
+                  <div><h4>建議優先回答</h4><ul><li>住在日本的參加者要如何安全地參與美國房地產投資？</li><li>日本房產與美國房產，在資產配置、管理與報酬邏輯上差異為何？</li><li>日本人在跨境匯款、簽約、稅務與後續服務上要注意什麼？</li><li>活動後如果要進一步諮詢，流程如何安排比較安心？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+        </section>
+        <section class="band" id="questions-zh">
+          <div class="wrap">
+            <h2>來賓明確寫出的問題</h2>
+            <p class="lead">目前多數人沒有填開放題，但已填的問題都非常有價值，集中在投資模式、出租客群、LLC / Trust、遺產稅、非美國籍持有與 OBU 公司比較。</p>
+            <div class="question-grid"><article class='question-card'><b>Q1</b><p>1. 各州房地產適合的投資模式，比如買進整修後出租、再融資、重複操作的投資模式, 短期翻修轉售, 短租, 中期出租, 短租法規例外或限制, 多戶住宅\n2. 潛在租客客群，例如高薪單身工程師、高薪家庭、短期旅客、中期醫護或外派人員等\n3. 各州適合投資的區域，比如好學區、舊房區、多戶公寓等</p></article>
+<article class='question-card'><b>Q2</b><p>購買房產後設立LLC和不可撤銷信託等流程與法規，遺產稅與贈與稅相關法規</p></article>
+<article class='question-card'><b>Q3</b><p>1. 無美國籍個人持有西雅圖房產, 要如何避免未來巨額遺產稅和遺產手續\n2. 無美國籍個人和OBU 公司持有美國西雅圖&amp;麻州房產, 個人稅負和遺產稅和遺產手續的比較</p></article>
+<article class='question-card'><b>Q4</b><p>Tax and estate planning among 3 countries: Taiwan, Japan and USA</p></article>
+<article class='question-card'><b>Q5</b><p>在美國紐約市以及其他城市工作，租房子與買房自住和出租的比較與建議。美國公民貸款買房與外國人在美國買房的優缺點比較和要注意的稅賦差別及法律規定。</p></article>
+<article class='question-card'><b>Q6</b><p>不知道是否能另外針對Vegas區域說明</p></article>
+<article class='question-card'><b>Q7</b><p>新移民如何選擇哪個區域落腳，新移民的注意事項</p></article></div>
+          </div>
+        </section>
+        <section class="band" id="actions-zh">
+          <div class="wrap">
+            <h2>活動前建議安排</h2>
+            <div class="panel"><ol><li>開場先講清楚一張票包含現場與線上。目前多數已付款來賓偏線上六場課程，務必讓大家知道後續觀看連結、提醒方式與回放規則。</li><li>每位市場型講者都要給「適合誰、不適合誰」。來賓多半尚未確定購買時間，因此比起強推物件，更需要判斷框架。</li><li>Kevin 的稅務與架構段落要放足時間。這是目前最高需求，也有最具體問題。</li><li>Lydia 的出租管理段落要非常實務。來賓會想知道遠端管理、短租、中期租、多戶住宅和實際營運風險。</li><li>活動後追蹤可分眾。Phoenix / Dallas、加州、Boston、稅務架構、出租管理，各自用不同後續訊息，不要只發同一封。</li></ol></div>
+          </div>
+        </section>
+      </main>
+      <footer><div class="wrap">來源：Accupass 參加名單 Excel。本報告僅整理已完成付款報名資料，並已移除聯絡方式與付款敏感資訊。</div></footer>
+    </div>
+    
+
+    <div class="lang-page" data-page-lang="en">
+      <header class="hero">
+        <div class="wrap">
+          <div class="topbar">
+            <div class="eyebrow">Speaker Briefing · Paid Accupass Registrations</div>
+            <div class="lang-switch" aria-label="Language">
+              <button type="button" data-lang="zh">繁中</button>
+              <button type="button" data-lang="en">EN</button>
+              <button type="button" data-lang="ja">日本語</button>
+            </div>
+          </div>
+          <h1>Piao Group 2026 Overseas Real Estate Sharing Event</h1>
+          <p>This briefing summarizes paid registrants&#x27; preferred states, motivations, budget profile, and written questions so each speaker can prepare around the audience&#x27;s real needs.</p>
+          <div class="meta-grid">
+            <div class="meta"><span>Paid registrations</span><b>43</b><span>orders</span></div>
+            <div class="meta"><span>Prepared on</span><b>2026/08/08</b><span>Taiwan time</span></div>
+          </div>
+        </div>
+      </header>
+      <nav><div class="wrap"><a href="#summary-en">Overview</a><a href="#states-en">States &amp; Topics</a><a href="#speakers-en">Speaker Briefing</a><a href="#questions-en">Audience Questions</a><a href="#actions-en">Action Items</a></div></nav>
+      <main>
+        <section class="band" id="summary-en">
+          <div class="wrap">
+            <h2>Audience Snapshot</h2>
+            <p class="lead">The audience is not only asking where prices may rise. They want a practical framework for cross-border ownership, rental management, state selection, tax planning, and estate structure.</p>
+            <div class="cards"><div class="stat-card"><span>Top requested topic</span><b>36</b>U.S. tax / CPA</div><div class="stat-card"><span>Most popular state</span><b>25</b>Phoenix / Dallas tied</div><div class="stat-card"><span>Buying timeline</span><b>40</b>Most are still researching</div><div class="stat-card"><span>Participation format</span><b>36</b>Mostly online</div></div>
+          </div>
+        </section>
+        <section class="band" id="states-en">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>Interested States</h2><div class="bar-row"><div class="bar-top"><span>Texas (Dallas)</span><b>26 people</b></div><div class="bar"><span style="width:60%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Arizona (Phoenix)</span><b>25 people</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Southern California</span><b>25 people</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Northern California</span><b>24 people</b></div><div class="bar"><span style="width:56%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Other / undecided</span><b>23 people</b></div><div class="bar"><span style="width:53%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Massachusetts (Boston)</span><b>18 people</b></div><div class="bar"><span style="width:42%"></span></div></div></div>
+            <div class="panel"><h2>Topics Requested</h2><div class="bar-row"><div class="bar-top"><span>U.S. tax, CPA, and filing essentials</span><b>36 people</b></div><div class="bar"><span style="width:84%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Cross-border asset allocation and capital planning</span><b>33 people</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>State-by-state market comparison and property selection</span><b>33 people</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Rental and remote property management</span><b>31 people</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Ownership structure and estate planning</span><b>31 people</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>U.S. financing and buying process</span><b>31 people</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Other</span><b>3 people</b></div><div class="bar"><span style="width:7%"></span></div></div></div>
+          </div>
+        </section>
+        <section class="band">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>Motivations</h2><div class="bar-row"><div class="bar-top"><span>Investment / stable rental income</span><b>33 people</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Overseas allocation / risk diversification</span><b>31 people</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Immigration / study / self-use / retirement planning</span><b>30 people</b></div><div class="bar"><span style="width:70%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Estate planning / family planning / ownership structure</span><b>29 people</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Comparing market trends and property choices</span><b>29 people</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>U.S. financing and buying process</span><b>24 people</b></div><div class="bar"><span style="width:56%"></span></div></div></div>
+            <div class="panel">
+              <h2>Budget &amp; Readiness</h2>
+              <h4>Buying budget</h4>
+              <div class="bar-row"><div class="bar-top"><span>Undecided, would like to study the market first</span><b>29 people</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$10M-20M</span><b>5 people</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Under NT$10M</span><b>4 people</b></div><div class="bar"><span style="width:9%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Above NT$30M</span><b>3 people</b></div><div class="bar"><span style="width:7%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$20M-30M</span><b>2 people</b></div><div class="bar"><span style="width:5%"></span></div></div>
+              <h4 style="margin-top:22px">Age profile</h4>
+              <div class="bar-row"><div class="bar-top"><span>Age 46-50</span><b>13 people</b></div><div class="bar"><span style="width:30%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Age 41-45</span><b>10 people</b></div><div class="bar"><span style="width:23%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Age 36-40</span><b>7 people</b></div><div class="bar"><span style="width:16%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Age 61+</span><b>5 people</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Age 51-55</span><b>5 people</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>Age 56-60</span><b>3 people</b></div><div class="bar"><span style="width:7%"></span></div></div>
+            </div>
+          </div>
+        </section>
+        <section class="band" id="speakers-en">
+          <div class="wrap">
+            <h2>Speaker Briefing Cards</h2>
+            <p class="lead">The following cards map each speaker&#x27;s preparation points to the registration answers, preferred states, requested topics, and open-ended questions.</p>
+          </div>
+          
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-sabrina.png" alt="Sabrina Woodhall"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Arizona (Phoenix) · 25 people</div>
+                <h3>Sabrina Woodhall</h3>
+                <p class="role">Arizona / Phoenix market, residential sales, commercial real estate, rental matching</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Phoenix / Arizona is one of the top requested markets, tied with Dallas.</li><li>Registrants will want to know whether price momentum remains and whether TSMC-related supply-chain demand still supports rental demand.</li><li>Prepare buyer-friendly areas, price ranges, tenant profiles, and risk reminders for overseas investors.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>What are the current trends in Phoenix prices, rents, and vacancy?</li><li>Are overseas investors better suited for residential, commercial, or rental-matching opportunities?</li><li>Which areas are better for long-term, short-term, or mid-term rentals?</li><li>What are common Arizona investment misconceptions and red flags?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-hannah.png" alt="Hannah Hsu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Texas (Dallas) · 26 people</div>
+                <h3>Hannah Hsu</h3>
+                <p class="role">Texas / Dallas market, neighborhood selection, investment trends, lifestyle and relocation</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Dallas ties with Phoenix as the most requested state market.</li><li>The audience cares about investment, self-use, relocation, education, and neighborhood choice, not just yield.</li><li>Include practical relocation experience from California to Dallas, plus lifestyle zones and school district differences.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>Which Dallas areas fit investment, self-use, or family relocation?</li><li>How do rental returns and risks compare between Dallas, Phoenix, and California?</li><li>How should buyers evaluate community, schools, safety, and future growth?</li><li>Can staging, repairs, or property presentation improve rental or resale performance?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-shelby.png" alt="Shelby Wu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Southern California · 25 people</div>
+                <h3>Shelby Wu</h3>
+                <p class="role">Southern California, residential transactions, investment property, 1031 Exchange, rental-management resources</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Southern California still attracts strong interest; attendees will ask whether it is still worth entering a high-price market.</li><li>Registrants care about stable rents, allocation, school districts, and different entry strategies by purpose.</li><li>Frame choices by purpose: self-use, rental, capital preservation, and 1031 Exchange.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>In a high-price Southern California market, which buying strategies can still make sense?</li><li>How do tenant profiles, vacancy risk, and management difficulty differ by city or school district?</li><li>What practical use cases does 1031 Exchange have for overseas or cross-state allocation?</li><li>What renovation, maintenance, and rental-management costs are often underestimated?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-yuen.png" alt="Yu-En Tsai"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Northern California · 24 people</div>
+                <h3>Yu-En Tsai</h3>
+                <p class="role">Northern California / Bay Area, tech demand, San Francisco Bay Area real estate</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Northern California interest is as strong as Southern California, especially around tech-industry and high-income tenant demand.</li><li>Several registrants come from tech, engineering, education, research, and real estate backgrounds, so they can absorb regional detail.</li><li>Use Bay Area submarkets, commute patterns, employer clusters, and tenant profiles as the entry point.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>How do investment logics differ across Bay Area cities?</li><li>How are tech trends, remote work, and AI affecting housing demand?</li><li>Which products fit engineer tenants, family tenants, and students?</li><li>Are full renovations, ADUs, or value-add strategies suitable for overseas investors?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-amelie.png" alt="Amelie Cheng"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Massachusetts (Boston) · 18 people</div>
+                <h3>Amelie Cheng</h3>
+                <p class="role">Massachusetts / Boston market, education city, East Coast allocation</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Boston has clear demand in the registration data and should not be treated as secondary.</li><li>Attendees care about education, study abroad, self-use, retirement, and estate planning, so Boston fits a long-term holding and education-city frame.</li><li>Prepare comparisons between Boston / Massachusetts and other states on price, tenant profile, rules, and management difficulty.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>What type of investor is Boston best for: education, self-use, rental, or long-term allocation?</li><li>How do student, family, and high-income professional tenant demands differ?</li><li>How do entry barriers and risks compare across Massachusetts, Phoenix, Dallas, and California?</li><li>What should foreign owners know about Boston property tax and estate planning?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-lydia.png" alt="Lydia Lee"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">Rental and remote property management · 31 people</div>
+                <h3>Lydia Lee</h3>
+                <p class="role">Airbnb / rental management, remote operations, property management, risk control</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Rental and remote management was selected by 13 paid registrants, making it one of the strongest practical topics.</li><li>Open-ended questions specifically mention buy-renovate-rent-refinance-repeat strategies, renovation resales, short-term rentals, mid-term rentals, multifamily properties, and tenant profiles.</li><li>Walk through real operations: site selection, furnishing, listing, cleaning, repairs, pricing, and platform risk.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>Which markets fit buy-renovate-rent-refinance-repeat strategies, renovation resales, short-term rentals, mid-term rentals, or multifamily properties?</li><li>How can overseas owners manage cleaning, repairs, guest issues, insurance, and emergencies?</li><li>Which properties are not suitable for Airbnb or short-term rentals?</li><li>What remote-operation costs and staffing needs are most often underestimated?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kevin.png" alt="Kevin Huang"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">U.S. tax, CPA, and filing essentials · 36 people</div>
+                <h3>Kevin Huang</h3>
+                <p class="role">USCPA / EA, U.S. tax, cross-border tax, LLC / Trust / estate planning</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Tax is the highest-demand topic, selected by 16 registrants.</li><li>Ownership structure and estate planning were selected by 15 registrants, and written questions mention LLCs, irrevocable trusts, estate tax, gift tax, and OBU companies.</li><li>This session should cover common structures, filing obligations, and inheritance risks for foreign owners of U.S. property.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>How can a non-U.S. person holding U.S. property reduce future estate tax and probate risks?</li><li>What are the differences between individual, LLC, OBU company, and Trust ownership?</li><li>What filings may rental income, capital gains, state tax, FBAR, and FATCA trigger?</li><li>What should buyers ask a CPA before purchasing to avoid restructuring later?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kenny.png" alt="Kenny Lin"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">日本現場與跨境配置 · 7 people</div>
+                <h3>Kenny Lin</h3>
+                <p class="role">Japan-based real estate, life in Japan, immigration services, and cross-border allocation bridge</p>
+                <div class="cols">
+                  <div><h4>Pre-event focus</h4><ul><li>Although the survey centers on U.S. real estate, the event is held in Tokyo, so local trust in Japan matters.</li><li>Address what Japan-based attendees may care about: payment, language, cross-border communication, remittance, follow-up service, and comparison with Japanese real estate.</li><li>Kenny can bridge Japanese attendees and U.S. speakers while highlighting practical risks.</li></ul></div>
+                  <div><h4>Suggested questions to address</h4><ul><li>How can attendees living in Japan participate in U.S. real estate investment safely?</li><li>How do Japanese and U.S. real estate differ in allocation logic, management, and returns?</li><li>What should Japan-based investors watch for in remittance, contracts, tax, and follow-up service?</li><li>What post-event consultation flow would feel trustworthy?</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+        </section>
+        <section class="band" id="questions-en">
+          <div class="wrap">
+            <h2>Questions Written by Registrants</h2>
+            <p class="lead">Most registrants did not fill in the open-ended field, but the written questions are highly useful. They concentrate on investment models, tenant profiles, LLC / Trust, estate tax, non-U.S. ownership, and OBU comparisons.</p>
+            <div class="question-grid"><article class='question-card'><b>Q1</b><p>Which investment models fit each state, such as buy-renovate-rent-refinance-repeat strategies, renovation resales, short-term rentals, mid-term rentals, short-term rental regulatory exceptions or restrictions, and multifamily properties? What tenant profiles are likely, such as high-income single engineers, high-income families, short-term travelers, mid-term medical or corporate tenants? Which areas fit investment, such as good school districts, older-home districts, and multifamily areas?</p></article>
+<article class='question-card'><b>Q2</b><p>After purchasing property, what are the process and legal rules for setting up an LLC and an irrevocable trust? What are the estate tax and gift tax rules?</p></article>
+<article class='question-card'><b>Q3</b><p>For a non-U.S. person holding Seattle property personally, how can future estate tax and probate burdens be avoided? How do personal ownership and OBU company ownership compare for Seattle and Massachusetts property in terms of personal tax, estate tax, and inheritance procedures?</p></article></div>
+          </div>
+        </section>
+        <section class="band" id="actions-en">
+          <div class="wrap">
+            <h2>Recommended Pre-event Actions</h2>
+            <div class="panel"><ol><li>Clarify at the opening that one ticket includes both the in-person event and online sessions. Since many paid registrants prefer the online program, clearly explain viewing links, reminders, and replay rules.</li><li>Each market speaker should define who the market is for and who it is not for. Most attendees are still researching, so a decision framework matters more than pushing properties.</li><li>Give Kevin&#x27;s tax and structure segment enough time. It is the highest-demand topic and has the most specific written questions.</li><li>Make Lydia&#x27;s rental-management segment highly practical. Attendees want remote management, short-term rental, mid-term rental, multifamily, and operational risk details.</li><li>Segment post-event follow-up. Phoenix / Dallas, California, Boston, tax structure, and rental management should each receive different follow-up messaging.</li></ol></div>
+          </div>
+        </section>
+      </main>
+      <footer><div class="wrap">Source: Accupass attendee Excel export. This report uses paid registrations only and removes contact details and sensitive payment information.</div></footer>
+    </div>
+    
+
+    <div class="lang-page" data-page-lang="ja">
+      <header class="hero">
+        <div class="wrap">
+          <div class="topbar">
+            <div class="eyebrow">登壇者向けブリーフィング · Accupass 決済済み申込データ</div>
+            <div class="lang-switch" aria-label="Language">
+              <button type="button" data-lang="zh">繁中</button>
+              <button type="button" data-lang="en">EN</button>
+              <button type="button" data-lang="ja">日本語</button>
+            </div>
+          </div>
+          <h1>飄團 2026 海外不動産シェア会</h1>
+          <p>決済済み申込者の関心州、参加理由、予算感、具体的な質問を整理し、各登壇者が事前に参加者ニーズを把握できるようにした資料です。</p>
+          <div class="meta-grid">
+            <div class="meta"><span>決済済み申込</span><b>43</b><span>件</span></div>
+            <div class="meta"><span>整理日</span><b>2026/08/08</b><span>台湾時間</span></div>
+          </div>
+        </div>
+      </header>
+      <nav><div class="wrap"><a href="#summary-ja">概要</a><a href="#states-ja">州・テーマ</a><a href="#speakers-ja">登壇者別</a><a href="#questions-ja">参加者の質問</a><a href="#actions-ja">事前準備</a></div></nav>
+      <main>
+        <section class="band" id="summary-ja">
+          <div class="wrap">
+            <h2>参加者の概要</h2>
+            <p class="lead">参加者は単に「どこが上がるか」だけでなく、越境保有、賃貸管理、州の選び方、税務、資産承継の考え方を知りたい傾向があります。</p>
+            <div class="cards"><div class="stat-card"><span>最も要望が多いテーマ</span><b>36</b>米国税務 / CPA</div><div class="stat-card"><span>最も関心が高い州</span><b>25</b>Phoenix / Dallas が同率</div><div class="stat-card"><span>購入時期</span><b>40</b>多くは調査段階</div><div class="stat-card"><span>参加形式</span><b>36</b>オンライン中心</div></div>
+          </div>
+        </section>
+        <section class="band" id="states-ja">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>関心のある州</h2><div class="bar-row"><div class="bar-top"><span>テキサス州（ダラス）</span><b>26 人</b></div><div class="bar"><span style="width:60%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>アリゾナ州（フェニックス）</span><b>25 人</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>南カリフォルニア</span><b>25 人</b></div><div class="bar"><span style="width:58%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>北カリフォルニア</span><b>24 人</b></div><div class="bar"><span style="width:56%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>その他／未定</span><b>23 人</b></div><div class="bar"><span style="width:53%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>マサチューセッツ州（ボストン）</span><b>18 人</b></div><div class="bar"><span style="width:42%"></span></div></div></div>
+            <div class="panel"><h2>深く知りたいテーマ</h2><div class="bar-row"><div class="bar-top"><span>米国税務・CPA・申告の要点</span><b>36 人</b></div><div class="bar"><span style="width:84%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>クロスボーダー資産配分と資金計画</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>州別市場比較と物件選定</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>賃貸・遠隔物件管理</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>保有スキームと資産承継</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>米国ローンと購入プロセス</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>その他</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div></div>
+          </div>
+        </section>
+        <section class="band">
+          <div class="wrap grid-2">
+            <div class="panel"><h2>参加理由</h2><div class="bar-row"><div class="bar-top"><span>投資／安定した賃料収入</span><b>33 人</b></div><div class="bar"><span style="width:77%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>海外資産配分／リスク分散</span><b>31 人</b></div><div class="bar"><span style="width:72%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>移住／留学／自己利用／リタイア計画</span><b>30 人</b></div><div class="bar"><span style="width:70%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>資産承継／家族計画／保有スキーム</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>市場動向と物件選択の比較</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>米国ローンと購入プロセス</span><b>24 人</b></div><div class="bar"><span style="width:56%"></span></div></div></div>
+            <div class="panel">
+              <h2>予算と準備度</h2>
+              <h4>購入予算</h4>
+              <div class="bar-row"><div class="bar-top"><span>未定、まず市場を見たい</span><b>29 人</b></div><div class="bar"><span style="width:67%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$1,000万〜2,000万</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$1,000万未満</span><b>4 人</b></div><div class="bar"><span style="width:9%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$3,000万以上</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>NT$2,000万〜3,000万</span><b>2 人</b></div><div class="bar"><span style="width:5%"></span></div></div>
+              <h4 style="margin-top:22px">年齢層</h4>
+              <div class="bar-row"><div class="bar-top"><span>46〜50歳</span><b>13 人</b></div><div class="bar"><span style="width:30%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>41〜45歳</span><b>10 人</b></div><div class="bar"><span style="width:23%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>36〜40歳</span><b>7 人</b></div><div class="bar"><span style="width:16%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>61歳以上</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>51〜55歳</span><b>5 人</b></div><div class="bar"><span style="width:12%"></span></div></div>
+<div class="bar-row"><div class="bar-top"><span>56〜60歳</span><b>3 人</b></div><div class="bar"><span style="width:7%"></span></div></div>
+            </div>
+          </div>
+        </section>
+        <section class="band" id="speakers-ja">
+          <div class="wrap">
+            <h2>登壇者別ブリーフィング</h2>
+            <p class="lead">以下は申込フォームの回答、関心州、希望テーマ、自由記述の質問に基づき、各登壇者が優先して準備できる内容を整理したものです。</p>
+          </div>
+          
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-sabrina.png" alt="Sabrina Woodhall"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">アリゾナ州（フェニックス） · 25 人</div>
+                <h3>Sabrina Woodhall</h3>
+                <p class="role">アリゾナ / フェニックス市場、住宅売買、商業不動産、賃貸マッチング</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>フェニックス / アリゾナは、ダラスと並んで最も関心が高い市場です。</li><li>価格上昇の余地、TSMC関連サプライチェーンが賃貸需要を支えるかが関心点です。</li><li>海外投資家に適したエリア、価格帯、賃借人像、リスクを整理すると有用です。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>フェニックスの価格、賃料、空室率の現在の傾向は？</li><li>海外投資家には住宅、商業不動産、賃貸マッチング型のどれが適しているか？</li><li>長期賃貸、短期賃貸、中期賃貸に向くエリアは？</li><li>アリゾナ投資でよくある誤解と注意点は？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-hannah.png" alt="Hannah Hsu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">テキサス州（ダラス） · 26 人</div>
+                <h3>Hannah Hsu</h3>
+                <p class="role">テキサス / ダラス市場、エリア選定、不動産投資動向、生活と移住</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>ダラスはフェニックスと並んで最も関心が高い市場です。</li><li>参加者は利回りだけでなく、投資、自己利用、移住、教育、エリア選択にも関心があります。</li><li>カリフォルニアからダラスへの移住経験、生活圏、学区の違いを入れると響きます。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>ダラスで投資向き、自住向き、家族移住向きのエリアは？</li><li>ダラス、フェニックス、カリフォルニアの賃貸収益とリスクの違いは？</li><li>購入前に地域、学区、治安、将来性をどう判断するか？</li><li>ステージング、修繕、物件演出は賃貸や再販に有効か？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-shelby.png" alt="Shelby Wu"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">南カリフォルニア · 25 人</div>
+                <h3>Shelby Wu</h3>
+                <p class="role">南カリフォルニア、住宅売買、投資用不動産、1031 Exchange、賃貸管理リソース</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>南カリフォルニアへの関心は高く、高価格市場に今から入る意味があるかが焦点です。</li><li>安定賃料、資産配分、学区、目的別の入り方に関心があります。</li><li>自己利用、賃貸、資産保全、1031 Exchange など目的別に整理すると分かりやすいです。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>高価格の南カリフォルニアで、合理的なリターンが見込める買い方は？</li><li>都市や学区により、賃借人層、空室リスク、管理難易度はどう違うか？</li><li>1031 Exchange は海外投資や州をまたぐ資産配分でどう使えるか？</li><li>改装、維持、賃貸管理で見落とされやすいコストは？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-yuen.png" alt="Yu-En Tsai"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">北カリフォルニア · 24 人</div>
+                <h3>Yu-En Tsai</h3>
+                <p class="role">北カリフォルニア / ベイエリア、テック需要、サンフランシスコ湾岸不動産</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>北カリフォルニアは南カリフォルニアと同程度の関心があり、テック業界と高所得賃借人需要が重要です。</li><li>IT、エンジニア、教育研究、不動産関係の参加者がおり、地域別の詳細にも関心があります。</li><li>ベイエリアのサブマーケット、通勤、企業集積、賃借人像から説明すると良いです。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>ベイエリア各都市で投資ロジックはどう違うか？</li><li>テック業界、リモートワーク、AI産業は住宅市場にどう影響するか？</li><li>エンジニア、家族、学生にはどの物件タイプが合うか？</li><li>全面改装、ADU、バリューアップ戦略は海外投資家に適しているか？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-amelie.png" alt="Amelie Cheng"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">マサチューセッツ州（ボストン） · 18 人</div>
+                <h3>Amelie Cheng</h3>
+                <p class="role">マサチューセッツ / ボストン市場、教育都市、東海岸資産配分</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>ボストンへの関心は明確にあり、軽く扱うべきではありません。</li><li>教育、留学、自己利用、リタイア、資産承継への関心があり、教育都市・長期保有の視点が合います。</li><li>価格、賃借人層、規制、管理難易度について、ボストン / マサチューセッツと他州を比較すると有用です。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>ボストンは教育、自己利用、賃貸、長期資産配分のどの投資家に適しているか？</li><li>学生、家族、高所得専門職の賃貸需要はどう違うか？</li><li>マサチューセッツはフェニックス、ダラス、カリフォルニアと比べて参入障壁とリスクがどう違うか？</li><li>外国人がボストン不動産を保有する際の税務・相続計画の注意点は？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-lydia.png" alt="Lydia Lee"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">賃貸・遠隔物件管理 · 31 人</div>
+                <h3>Lydia Lee</h3>
+                <p class="role">Airbnb / 賃貸管理、遠隔運営、物件管理、リスク管理</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>賃貸・遠隔管理は13名の決済済み参加者が選択しており、実務例が最も求められるテーマの一つです。</li><li>自由記述では、購入後に改装して賃貸し、再融資して次の物件へ進む投資手法、短期転売、短期賃貸、中期賃貸、多世帯住宅、賃借人層が具体的に挙がっています。</li><li>エリア選定、備品購入、掲載、清掃、修繕、価格設定、プラットフォームリスクを実例で説明すると効果的です。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>購入後に改装して賃貸し、再融資して次の物件へ進む投資手法、短期転売、短期賃貸、中期賃貸、多世帯住宅は、それぞれどの市場に合うか？</li><li>海外オーナーは清掃、修繕、クレーム、保険、緊急対応をどう管理するか？</li><li>Airbnb や短期賃貸に向かない物件は？</li><li>遠隔運営で見落とされがちなコストと人員体制は？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kevin.png" alt="Kevin Huang"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">米国税務・CPA・申告の要点 · 36 人</div>
+                <h3>Kevin Huang</h3>
+                <p class="role">USCPA / EA、米国税務、クロスボーダー税務、LLC / Trust / 相続計画</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>税務は最も要望が多いテーマで、16名が選択しています。</li><li>保有スキームと資産承継は15名が選択し、自由記述では LLC、取消不能信託、遺産税、贈与税、OBU会社が挙がっています。</li><li>外国人が米国不動産を保有する際の一般的な構造、申告、相続リスクを必ず扱うとよいです。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>非米国籍者が米国不動産を保有する場合、将来の遺産税や相続手続きリスクをどう下げるか？</li><li>個人、LLC、OBU会社、Trustで保有する違いは？</li><li>賃貸収入、キャピタルゲイン、州税、FBAR / FATCA ではどの申告が関係するか？</li><li>購入前にCPAへ何を確認すべきか？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+
+            <section class="speaker-card">
+              <div class="speaker-media"><img src="assets/portrait-kenny.png" alt="Kenny Lin"></div>
+              <div class="speaker-body">
+                <div class="speaker-kicker">日本現場與跨境配置 · 7 人</div>
+                <h3>Kenny Lin</h3>
+                <p class="role">日本在住、不動産、日本生活、移民業務、クロスボーダー資産配分の橋渡し</p>
+                <div class="cols">
+                  <div><h4>事前に押さえるポイント</h4><ul><li>アンケートの中心は米国不動産ですが、イベントは東京開催のため、日本側での信頼感が重要です。</li><li>日本在住参加者が気にする支払い、言語、越境コミュニケーション、送金、フォロー体制、日本不動産との比較を補強できます。</li><li>Kenny は日本の参加者と米国側登壇者の橋渡し役として、実務リスクを伝えるのに適しています。</li></ul></div>
+                  <div><h4>優先的に回答したい質問</h4><ul><li>日本在住の参加者は、どのように安全に米国不動産投資へ参加できるか？</li><li>日本不動産と米国不動産は、資産配分、管理、リターンの考え方でどう違うか？</li><li>日本在住者が海外送金、契約、税務、フォロー体制で注意すべきことは？</li><li>イベント後の個別相談はどのような流れなら安心か？</li></ul></div>
+                </div>
+              </div>
+            </section>
+            
+        </section>
+        <section class="band" id="questions-ja">
+          <div class="wrap">
+            <h2>参加者が具体的に記入した質問</h2>
+            <p class="lead">自由記述を記入した参加者は多くありませんが、記入内容は非常に有用です。投資モデル、賃貸ターゲット、LLC / Trust、遺産税、非米国籍者の保有、OBU会社との比較に集中しています。</p>
+            <div class="question-grid"><article class='question-card'><b>Q1</b><p>購入後に改装して賃貸し、再融資して次の物件へ進む投資手法、短期転売、短期賃貸、中期賃貸、短期賃貸の規制上の例外や制限、多世帯住宅など、各州に合う投資モデルは何か？高所得単身エンジニア、高所得世帯、短期旅行者、中期の医療・駐在需要など、想定される賃借人層は？良い学区、古い住宅地、多世帯住宅エリアなど、投資に向く地域は？</p></article>
+<article class='question-card'><b>Q2</b><p>不動産購入後、LLC と取消不能信託を設立する流れと法規制は？遺産税と贈与税の関連ルールは？</p></article>
+<article class='question-card'><b>Q3</b><p>非米国籍者がシアトル不動産を個人で保有する場合、将来の巨額な遺産税と相続手続きをどう避けるか？シアトルおよびマサチューセッツの不動産について、個人保有と OBU 会社保有では個人税、遺産税、相続手続きにどのような違いがあるか？</p></article></div>
+          </div>
+        </section>
+        <section class="band" id="actions-ja">
+          <div class="wrap">
+            <h2>イベント前の推奨準備</h2>
+            <div class="panel"><ol><li>冒頭で、1枚のチケットに現地参加とオンライン講座が含まれることを明確に伝える。決済済み参加者はオンライン希望が多いため、視聴リンク、リマインド、アーカイブ視聴ルールを明確にする。</li><li>市場担当の登壇者は、その市場が「誰に向いていて、誰に向いていないか」を示す。参加者の多くは調査段階なので、物件紹介より判断フレームが重要。</li><li>Kevin の税務・保有スキームの時間を十分に確保する。最も需要が高く、具体的な質問も多いテーマ。</li><li>Lydia の賃貸管理パートは実務的にする。遠隔管理、短期賃貸、中期賃貸、多世帯住宅、運営リスクへの関心が高い。</li><li>イベント後のフォローはセグメント別に行う。Phoenix / Dallas、カリフォルニア、Boston、税務構造、賃貸管理でメッセージを分ける。</li></ol></div>
+          </div>
+        </section>
+      </main>
+      <footer><div class="wrap">出典：Accupass 参加者リスト Excel。本レポートは決済済み申込データのみを使用し、連絡先および決済関連の機密情報は削除しています。</div></footer>
+    </div>
+    
+  <script>
+    const titles = {
+      zh: '講師會前 Briefing｜飄團 2026 海外房地產分享會',
+      en: 'Speaker Briefing | Piao Group 2026 Overseas Real Estate Sharing Event',
+      ja: '登壇者向けブリーフィング｜飄團 2026 海外不動産シェア会'
+    };
+    const htmlLang = { zh: "zh-Hant", en: "en", ja: "ja" };
+    function setLang(lang) {
+      document.documentElement.lang = htmlLang[lang];
+      document.title = titles[lang];
+      document.querySelectorAll(".lang-page").forEach((page) => {
+        page.classList.toggle("active", page.dataset.pageLang === lang);
+      });
+      document.querySelectorAll(".lang-switch button").forEach((button) => {
+        button.classList.toggle("active", button.dataset.lang === lang);
+      });
+      localStorage.setItem("speakerReportLang", lang);
+    }
+    document.querySelectorAll(".lang-switch button").forEach((button) => {
+      button.addEventListener("click", () => setLang(button.dataset.lang));
+    });
+    setLang(localStorage.getItem("speakerReportLang") || "zh");
+  </script>
+</body>
+</html>
