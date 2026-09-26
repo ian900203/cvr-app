@@ -13,7 +13,13 @@ const icons = {
   message: '<path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"></path>',
   shield: '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path>',
   file: '<path d="M6 2h8l4 4v16H6z"></path><path d="M14 2v5h5M9 13h6M9 17h6"></path>',
-  plus: '<path d="M12 5v14M5 12h14"></path>'
+  plus: '<path d="M12 5v14M5 12h14"></path>',
+  user: '<circle cx="12" cy="8" r="4"></circle><path d="M4 21a8 8 0 0 1 16 0"></path>',
+  building: '<path d="M4 21V4h11v17M15 9h5v12M8 8h3M8 12h3M8 16h3M18 13h.01M18 17h.01M2 21h20"></path>',
+  clock: '<circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path>',
+  sparkle: '<path d="m12 3 1.2 3.8L17 8l-3.8 1.2L12 13l-1.2-3.8L7 8l3.8-1.2zM18 14l.8 2.2L21 17l-2.2.8L18 20l-.8-2.2L15 17l2.2-.8z"></path>',
+  send: '<path d="m22 2-7 20-4-9-9-4zM22 2 11 13"></path>',
+  chevron: '<path d="m9 18 6-6-6-6"></path>'
 };
 
 const journeyStages = [
@@ -57,12 +63,12 @@ const sourcePackages = [
 ];
 
 const state = {
-  view: location.hash.replace('#','') || 'journey', recordFilter: 'all', recordSearch: '', sourceSearch: '',
+  view: location.hash.replace('#','') || 'journey', recordFilter: 'all', recordSearch: '', sourceSearch: '', inboxSearch: '', inboxFilter: 'open', listingFilter: 'all',
   reviews: safeJson(localStorage.getItem('lydia-record-reviews'), {}), customGuidance: safeJson(localStorage.getItem('lydia-custom-guidance'), []),
   stageOverrides: safeJson(localStorage.getItem('lydia-stage-overrides'), {}), importedFiles: [], importedPairs: [], importedMessages: [],
-  selectedListing: '公開遮蔽樣本', selectedThread: 'sample-a', selectedSource: null
+  conversationStates: safeJson(localStorage.getItem('lydia-conversation-states'), {}), selectedListing: '公開遮蔽樣本', selectedThread: 'sample-a', selectedSource: null
 };
-const titles = { journey:'房客流程', status:'資料狀態', records:'歷史回覆庫', questions:'問題與情境', guidance:'Lydia 回覆指南', tests:'測試與評分', sources:'原始資料' };
+const titles = { journey:'AI 收件匣', status:'資料狀態', records:'歷史回覆庫', questions:'問題與情境', guidance:'Lydia 回覆指南', tests:'測試與評分', sources:'原始資料' };
 const main = document.querySelector('#main-content');
 function safeJson(value, fallback) { try { return value ? JSON.parse(value) : fallback; } catch { return fallback; } }
 function icon(name) { return `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name] || icons.file}</svg>`; }
@@ -79,7 +85,7 @@ function allMessages() {
 }
 function conversations() {
   const map = new Map();
-  allMessages().forEach((m,i) => { const id=String(m.thread_id||`row-${i}`), listing=m.listing_name||'未標記房源'; if(!map.has(id))map.set(id,{id,listing,label:`Thread ${id.slice(-6)}`,messages:[]}); map.get(id).messages.push({...m,_order:m._order??i}); });
+  allMessages().forEach((m,i) => { const id=String(m.thread_id||`row-${i}`), listing=m.listing_name||'未標記房源'; if(!map.has(id))map.set(id,{id,listing,label:m.guest_name||`房客 ${id.slice(-6)}`,messages:[]}); map.get(id).messages.push({...m,_order:m._order??i}); });
   return [...map.values()].map(c=>({...c,messages:c.messages.sort((a,b)=>a._order-b._order)}));
 }
 function inferStage(thread) {
@@ -90,14 +96,35 @@ function inferStage(thread) {
 }
 function selectedConversation() { const items=conversations(); let found=items.find(c=>c.id===state.selectedThread&&c.listing===state.selectedListing)||items.find(c=>c.listing===state.selectedListing)||items[0]; if(found){state.selectedListing=found.listing;state.selectedThread=found.id;} return found; }
 
+function conversationStatus(thread) {
+  const saved=state.conversationStates[thread.id];
+  if(saved==='closed')return {id:'closed',label:'已結束',tone:'neutral',basis:'人工結案'};
+  if(saved==='open')return {id:'open',label:'進行中',tone:'blue',basis:'人工重新開啟'};
+  const stage=inferStage(thread);
+  if(stage.id==='poststay')return {id:'closed',label:'已結束',tone:'neutral',basis:'退房後自動歸檔'};
+  const last=thread.messages.at(-1);
+  if(last?.speaker==='guest')return {id:'needs_reply',label:'待回覆',tone:'amber',basis:'最後訊息來自房客'};
+  return {id:'open',label:'進行中',tone:'green',basis:'最近已由房東回覆'};
+}
+
+function formatThreadTime(thread) {
+  return thread.messages.at(-1)?.timestamp || `${thread.messages.length} 則`;
+}
+
 function renderJourneyFlow(thread) {
   const stage=inferStage(thread), index=journeyStages.findIndex(s=>s.id===stage.id);
   return `<section class="journey-flow" aria-label="房客旅程階段"><div class="journey-flow-head"><div><strong>房客旅程</strong><span>${esc(stage.basis)}；未連接 Airbnb 訂單狀態</span></div>${badge(stage.basis,'blue')}</div><div class="flow-track">${journeyStages.map((s,i)=>`<button type="button" class="flow-node ${i<index?'is-done':''} ${i===index?'is-current':''}" data-stage="${s.id}" aria-current="${i===index?'step':'false'}"><span class="flow-dot">${i<index?icon('check'):i+1}</span><strong>${s.label}</strong><small>${s.note}</small></button>`).join('')}</div><p class="flow-branch"><strong>轉換關卡：</strong>前兩階段可能不會下訂；「已訂房」只有在 PMS／Airbnb 訂單狀態或人工確認後才能成立。點任一階段可人工校正並保存在此瀏覽器。</p></section>`;
 }
 function renderJourney() {
-  const all=conversations(), listings=[...new Set(all.map(c=>c.listing))]; if(!listings.includes(state.selectedListing))state.selectedListing=listings[0];
-  const threads=all.filter(c=>c.listing===state.selectedListing); if(!threads.some(c=>c.id===state.selectedThread))state.selectedThread=threads[0]?.id; const active=selectedConversation();
-  return `<section class="view journey-view"><div class="page-heading"><div><h2>房源 → 房客 → 對話 → 旅程階段</h2><p>${state.importedMessages.length?'目前顯示你在此瀏覽器開啟的原始資料。':'目前顯示公開遮蔽樣本；到「原始資料」開啟 cleaned_messages.csv 後，會建立完整房源與 thread 清單。'}</p></div>${badge(state.importedMessages.length?'本機原檔模式':'公開樣本模式',state.importedMessages.length?'green':'amber')}</div><div class="journey-console"><aside class="listing-column"><header><strong>房源</strong><span>${listings.length}</span></header><div class="column-list">${listings.map(name=>`<button type="button" class="listing-item ${name===state.selectedListing?'is-active':''}" data-listing="${esc(name)}"><span>${esc(name)}</span><small>${all.filter(c=>c.listing===name).length} 個 threads</small></button>`).join('')}</div></aside><aside class="thread-column"><header><strong>房客／對話</strong><span>${threads.length}</span></header><div class="column-list">${threads.map(c=>{const last=c.messages.at(-1), st=inferStage(c);return `<button type="button" class="thread-item ${c.id===state.selectedThread?'is-active':''}" data-thread="${esc(c.id)}"><div><strong>${esc(c.label)}</strong>${badge(journeyStages.find(s=>s.id===st.id)?.label||'初次詢問')}</div><p>${esc(last?.message_cleaned||'沒有訊息')}</p><small>Airbnb 訂房狀態：未知</small></button>`;}).join('')}</div></aside><section class="conversation-column">${active?`${renderJourneyFlow(active)}<header class="conversation-head"><div><h3>${esc(active.label)}</h3><p>${esc(active.listing)} · ${active.messages.length} 則訊息</p></div>${badge('非即時收件匣')}</header><div class="message-list">${active.messages.map(m=>`<article class="message-bubble ${m.speaker==='host'?'is-host':'is-guest'}"><small>${m.speaker==='host'?'Lydia 歷史回覆':'房客原始訊息'}${m.timestamp?` · ${esc(m.timestamp)}`:''}</small><p>${esc(m.message_cleaned)}</p>${m.intent&&m.intent!=='other'?badge(m.intent,'blue'):''}</article>`).join('')}</div>`:'<div class="empty-state">沒有可顯示的對話。</div>'}</section></div><p class="local-note">這不是即時 Airbnb 收件匣。匯入檔案只在此瀏覽器分頁記憶體中處理，不會上傳；重新整理後需重新選取原檔。</p></section>`;
+  const all=conversations(), listings=[...new Set(all.map(c=>c.listing))];
+  const query=state.inboxSearch.trim().toLowerCase();
+  const filtered=all.filter(c=>state.listingFilter==='all'||c.listing===state.listingFilter).filter(c=>{const s=conversationStatus(c);return state.inboxFilter==='all'||(state.inboxFilter==='open'?s.id!=='closed':s.id===state.inboxFilter);}).filter(c=>`${c.label} ${c.listing} ${c.messages.map(m=>m.message_cleaned).join(' ')}`.toLowerCase().includes(query));
+  if(!filtered.some(c=>c.id===state.selectedThread)){state.selectedThread=filtered[0]?.id||'';state.selectedListing=filtered[0]?.listing||state.selectedListing;}
+  const active=all.find(c=>c.id===state.selectedThread)||filtered[0];
+  if(active)state.selectedListing=active.listing;
+  const activeStatus=active?conversationStatus(active):null;
+  const openCount=all.filter(c=>conversationStatus(c).id!=='closed').length, needsCount=all.filter(c=>conversationStatus(c).id==='needs_reply').length, closedCount=all.filter(c=>conversationStatus(c).id==='closed').length;
+  return `<section class="view inbox-view"><div class="page-heading inbox-heading"><div><h2>所有房客詢問</h2><p>${state.importedMessages.length?'目前顯示你在此瀏覽器開啟的 Lydia 原始對話。':'目前顯示再次遮蔽的歷史樣本；開啟 cleaned_messages.csv 後會列出完整房客詢問。'}</p></div><div class="inbox-summary">${badge(`${needsCount} 待回覆`,needsCount?'amber':'green')}${badge(`${openCount} 未結案`,'blue')}${badge(`${closedCount} 已結束`,'neutral')}</div></div><div class="inbox-console"><aside class="inquiry-column"><header class="inquiry-header"><div><strong>訊息</strong><span>${filtered.length}</span></div><label class="inbox-search">${icon('search')}<input id="inbox-search" type="search" value="${esc(state.inboxSearch)}" placeholder="搜尋房客、房源或訊息"></label><select id="listing-filter" aria-label="篩選房源"><option value="all">所有房源（${listings.length}）</option>${listings.map(name=>`<option value="${esc(name)}" ${state.listingFilter===name?'selected':''}>${esc(name)}</option>`).join('')}</select><nav class="inbox-tabs" aria-label="對話狀態">${[['open',`未結案 ${openCount}`],['needs_reply',`待回覆 ${needsCount}`],['closed',`已結束 ${closedCount}`],['all',`全部 ${all.length}`]].map(([v,l])=>`<button type="button" class="${state.inboxFilter===v?'is-active':''}" data-inbox-filter="${v}">${l}</button>`).join('')}</nav></header><div class="inquiry-list">${filtered.map(c=>{const last=c.messages.at(-1), st=inferStage(c), status=conversationStatus(c);return `<button type="button" class="inquiry-item ${c.id===state.selectedThread?'is-active':''}" data-thread="${esc(c.id)}"><span class="guest-avatar" aria-hidden="true">${esc(c.label.replace('房客 ','').slice(0,2).toUpperCase())}</span><span class="inquiry-copy"><span class="inquiry-line"><strong>${esc(c.label)}</strong><time>${esc(formatThreadTime(c))}</time></span><small>${esc(c.listing)}</small><span class="inquiry-preview">${last?.speaker==='host'?'你：':''}${esc(last?.message_cleaned||'沒有訊息')}</span><span class="inquiry-tags">${badge(status.label,status.tone)}${badge(journeyStages.find(s=>s.id===st.id)?.label||'初次詢問')}</span></span></button>`;}).join('')||'<div class="empty-state">這個分類目前沒有對話。</div>'}</div></aside><section class="conversation-column inbox-conversation">${active?`${renderJourneyFlow(active)}<header class="conversation-head"><div class="conversation-person"><span class="guest-avatar">${esc(active.label.replace('房客 ','').slice(0,2).toUpperCase())}</span><div><h3>${esc(active.label)}</h3><p>${esc(active.listing)} · ${active.messages.length} 則訊息</p></div></div>${badge(activeStatus.label,activeStatus.tone)}</header><div class="message-list">${active.messages.map(m=>`<article class="message-bubble ${m.speaker==='host'?'is-host':'is-guest'}"><small>${m.speaker==='host'?'Lydia 歷史回覆':'房客原始訊息'}${m.timestamp?` · ${esc(m.timestamp)}`:''}</small><p>${esc(m.message_cleaned)}</p>${m.intent&&m.intent!=='other'?badge(m.intent,'blue'):''}</article>`).join('')}</div><footer class="composer"><label for="reply-draft">回覆草稿</label><div><textarea id="reply-draft" disabled placeholder="連接 AI 與 Airbnb／PMS 後，可在這裡產生、審核並傳送回覆。"></textarea><button type="button" class="icon-button" disabled aria-label="傳送回覆">${icon('send')}</button></div><small>目前不會產生或傳送訊息。</small></footer>`:'<div class="empty-state">選擇一則房客詢問查看對話。</div>'}</section><aside class="guest-detail">${active?`<section class="detail-card guest-profile"><span class="profile-avatar">${esc(active.label.replace('房客 ','').slice(0,2).toUpperCase())}</span><h3>${esc(active.label)}</h3><p>Airbnb Thread ${esc(active.id)}</p></section><section class="detail-card"><h3>對話狀態</h3><dl><div><dt>目前狀態</dt><dd>${badge(activeStatus.label,activeStatus.tone)}</dd></div><div><dt>判定依據</dt><dd>${esc(activeStatus.basis)}</dd></div><div><dt>目前階段</dt><dd>${esc(journeyStages.find(s=>s.id===inferStage(active).id)?.label||'初次詢問')}</dd></div></dl><button type="button" class="button ${activeStatus.id==='closed'?'button-secondary':'button-primary'} full-button" data-conversation-state="${activeStatus.id==='closed'?'open':'closed'}">${activeStatus.id==='closed'?'重新開啟對話':'標記已結束'}</button></section><section class="detail-card"><h3>房源與訂房</h3><dl><div><dt>房源</dt><dd>${esc(active.listing)}</dd></div><div><dt>訂房狀態</dt><dd>${badge('尚未連接','amber')}</dd></div><div><dt>訊息來源</dt><dd>${state.importedMessages.length?'本機原始檔':'公開遮蔽樣本'}</dd></div></dl></section><section class="detail-card ai-state"><div class="detail-title">${icon('sparkle')}<h3>AI 回覆</h3></div><p>模型與 Airbnb／PMS 尚未連接。目前只能整理歷史資料、標記階段與管理對話。</p>${badge('未啟用','neutral')}</section>`:''}</aside></div><p class="local-note"><strong>收件匣規則：</strong>退房後階段會自動移入「已結束」；其他對話可人工結案或重新開啟。正式串接後，還能依訂單結束時間與未解決問題自動歸檔。</p></section>`;
 }
 function renderStatus() { return `<section class="view"><div class="page-heading"><div><h2>目前真實狀態</h2><p>只顯示已確認的資料量，不把歷史內容說成 AI 績效。</p></div>${badge('0 則 AI 正式回覆')}</div><div class="status-grid">${[['820','問題／回覆配對','本機原始資料，待逐筆核准'],['1,678','Lydia 歷史回覆','用於找規律，不代表全部正確'],['2,831','完整訊息','來自 150 個有訊息的房客 threads'],['0','AI／PMS／Airbnb 連接','目前沒有模型生成或自動傳送']].map(([v,t,d],i)=>`<article class="status-card"><div class="status-card-top"><span class="status-icon">${icon(i===3?'lock':i===2?'database':'archive')}</span>${badge(i===3?'未連接':'真實歷史資料',i===3?'red':'green')}</div><h3>${t}</h3><strong class="value">${v}</strong><p>${d}</p></article>`).join('')}</div><div class="two-column"><section class="panel"><header class="panel-header"><div><h2>正確的訓練工作</h2><p>從原始證據到可測試規則</p></div></header><div class="task-list">${[['1','開啟原始檔','先看完整 thread 與上下文','sources'],['2','整理與核准回覆','排除錯位、過期或缺上下文資料','records'],['3','建立旅程與情境規則','把問題放進訂房生命週期','journey'],['4','用保留題測試','通過後才討論有限自動化','tests']].map(([n,t,d,v])=>`<article class="task-row"><span class="task-index">${n}</span><div><h3>${t}</h3><p>${d}</p></div><button class="mini-button" data-view-jump="${v}">前往</button></article>`).join('')}</div></section><aside class="panel"><header class="panel-header"><div><h2>回覆訓練方法</h2><p>使用可追溯、可核准、可測試的規則</p></div></header><div class="panel-body"><ul class="principle-list">${[['自然語言規則','何時套用、應該做什麼、禁止做什麼。'],['來源追溯','連回原始 thread、房源資料、SOP 與核准人。'],['旅程階段','同一個問題在訂房前與入住中可能有不同答案。'],['人工評分','只有核准資料才能進入正式模型。']].map(([t,d])=>`<li><span class="check">${icon('check')}</span><div><strong>${t}</strong><span>${d}</span></div></li>`).join('')}</ul></div></aside></div></section>`; }
 
@@ -123,7 +150,11 @@ async function importFiles(files){for(const file of files){const raw=await file.
 function bindViewEvents(){
   main.querySelectorAll('[data-view-jump]').forEach(b=>b.onclick=()=>goToView(b.dataset.viewJump));
   main.querySelectorAll('[data-listing]').forEach(b=>b.onclick=()=>{state.selectedListing=b.dataset.listing;state.selectedThread='';render();});
-  main.querySelectorAll('[data-thread]').forEach(b=>b.onclick=()=>{state.selectedThread=b.dataset.thread;render();});
+  main.querySelectorAll('[data-thread]').forEach(b=>b.onclick=()=>{state.selectedThread=b.dataset.thread;const c=conversations().find(item=>item.id===state.selectedThread);if(c)state.selectedListing=c.listing;render();});
+  main.querySelectorAll('[data-inbox-filter]').forEach(b=>b.onclick=()=>{state.inboxFilter=b.dataset.inboxFilter;render();});
+  const listingFilter=main.querySelector('#listing-filter');listingFilter?.addEventListener('change',()=>{state.listingFilter=listingFilter.value;state.selectedThread='';render();});
+  const inboxSearch=main.querySelector('#inbox-search');inboxSearch?.addEventListener('input',()=>{state.inboxSearch=inboxSearch.value;render();const next=main.querySelector('#inbox-search');next?.focus();next?.setSelectionRange(state.inboxSearch.length,state.inboxSearch.length);});
+  main.querySelector('[data-conversation-state]')?.addEventListener('click',e=>{const c=selectedConversation();if(!c)return;state.conversationStates[c.id]=e.currentTarget.dataset.conversationState;localStorage.setItem('lydia-conversation-states',JSON.stringify(state.conversationStates));toast(state.conversationStates[c.id]==='closed'?'對話已移至「已結束」':'對話已重新開啟',c.label);render();});
   main.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>{const c=selectedConversation();if(!c)return;state.stageOverrides[c.id]=b.dataset.stage;localStorage.setItem('lydia-stage-overrides',JSON.stringify(state.stageOverrides));toast('旅程階段已人工校正',journeyStages.find(s=>s.id===b.dataset.stage)?.label||'');render();});
   const rs=main.querySelector('#record-search');rs?.addEventListener('input',()=>{state.recordSearch=rs.value;render();const next=main.querySelector('#record-search');next?.focus();next?.setSelectionRange(state.recordSearch.length,state.recordSearch.length);});
   main.querySelectorAll('[data-record-filter]').forEach(b=>b.onclick=()=>{state.recordFilter=b.dataset.recordFilter;render();});
