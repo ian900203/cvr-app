@@ -1,103 +1,69 @@
 <!doctype html>
 <html lang="zh-Hant">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="noindex,nofollow" />
-    <meta
-      name="description"
-      content="Lydia AI Host Console — 以資深房東經驗為核心、可客製且可審核的房客訊息控制台。"
-    />
-    <title>Lydia AI Host Console</title>
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <a class="skip-link" href="#main-content">跳至主要內容</a>
-
-    <div class="app-shell">
-      <aside class="sidebar" id="sidebar" aria-label="主要導覽">
-        <div class="brand-block">
-          <div class="brand-mark" aria-hidden="true">L</div>
-          <div>
-            <div class="brand-name">Lydia AI</div>
-            <div class="brand-subtitle">Host Console</div>
-          </div>
-        </div>
-
-        <nav class="side-nav" aria-label="控制台功能">
-          <button class="nav-item is-active" type="button" data-view="overview">
-            <span data-icon="grid"></span><span>營運總覽</span>
-          </button>
-          <button class="nav-item" type="button" data-view="inbox">
-            <span data-icon="message"></span><span>AI 收件匣</span><span class="nav-badge">4</span>
-          </button>
-          <button class="nav-item" type="button" data-view="persona">
-            <span data-icon="spark"></span><span>Lydia 回覆方式</span>
-          </button>
-          <button class="nav-item" type="button" data-view="rules">
-            <span data-icon="shield"></span><span>自動回覆規則</span>
-          </button>
-          <button class="nav-item" type="button" data-view="knowledge">
-            <span data-icon="book"></span><span>房源知識庫</span><span class="nav-dot" aria-label="有資料待確認"></span>
-          </button>
-          <button class="nav-item" type="button" data-view="insights">
-            <span data-icon="chart"></span><span>學習與成效</span>
-          </button>
-        </nav>
-
-        <div class="sidebar-bottom">
-          <div class="connection-card">
-            <div class="connection-head">
-              <span class="status-dot is-demo"></span>
-              <strong>示範模式</strong>
-            </div>
-            <p>尚未連接 Airbnb，不會傳送真實訊息。</p>
-          </div>
-          <button class="profile-button" type="button" data-action="profile">
-            <span class="avatar">LY</span>
-            <span><strong>Lydia 團隊</strong><small>管理員</small></span>
-            <span data-icon="chevron"></span>
-          </button>
-        </div>
-      </aside>
-
-      <div class="main-column">
-        <header class="topbar">
-          <button class="icon-button menu-button" id="menu-button" type="button" aria-label="開啟選單" aria-expanded="false">
-            <span data-icon="menu"></span>
-          </button>
-          <div class="page-title-wrap">
-            <p class="eyebrow">CVR Group · 48 個 Airbnb 刊登</p>
-            <h1 id="page-title">營運總覽</h1>
-          </div>
-          <div class="topbar-actions">
-            <div class="mode-pill" title="目前為人工審核模式">
-              <span class="status-dot is-review"></span>
-              <span>人工審核模式</span>
-            </div>
-            <button class="icon-button" type="button" aria-label="通知">
-              <span data-icon="bell"></span><span class="notification-count">3</span>
-            </button>
-            <button class="button button-primary" type="button" data-view-jump="inbox">
-              <span data-icon="message"></span>審核 4 則回覆
-            </button>
-          </div>
-        </header>
-
-        <div class="demo-banner" role="status">
-          <span data-icon="info"></span>
-          <span><strong>本機互動原型：</strong>所有核准、傳送與設定變更只會保存在這台電腦的瀏覽器中。</span>
-          <button type="button" data-action="dismiss-banner" aria-label="關閉提示"><span data-icon="close"></span></button>
-        </div>
-
-        <main id="main-content" tabindex="-1"></main>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="description" content="Lydia 房客回覆資料整理、指南編輯與測試工作台。">
+  <title>Lydia 回覆訓練工作台</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">跳至主要內容</a>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar" aria-label="主要導覽">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">L</div>
+        <div><strong>Lydia 回覆訓練</strong><span>CVR Group</span></div>
       </div>
-    </div>
+      <nav class="nav-list" aria-label="訓練工作台功能">
+        <button class="nav-item is-active" type="button" data-view="status"><span class="nav-icon" data-icon="home"></span><span>資料狀態</span></button>
+        <button class="nav-item" type="button" data-view="records"><span class="nav-icon" data-icon="archive"></span><span>歷史回覆庫</span><span class="nav-count">820</span></button>
+        <button class="nav-item" type="button" data-view="questions"><span class="nav-icon" data-icon="help"></span><span>問題與情境</span></button>
+        <button class="nav-item" type="button" data-view="guidance"><span class="nav-icon" data-icon="guide"></span><span>Lydia 回覆指南</span></button>
+        <button class="nav-item" type="button" data-view="tests"><span class="nav-icon" data-icon="flask"></span><span>測試與評分</span></button>
+        <button class="nav-item" type="button" data-view="sources"><span class="nav-icon" data-icon="database"></span><span>資料來源</span></button>
+      </nav>
+      <div class="sidebar-note">
+        <strong>尚未連接 AI 或 Airbnb</strong>
+        <p>目前用來整理、核准資料與建立測試集，不會產生或傳送房客訊息。</p>
+      </div>
+      <div class="sidebar-footer"><span class="avatar">LY</span><div><strong>Lydia 團隊</strong><small>內部資料整理</small></div></div>
+    </aside>
 
     <div class="mobile-scrim" id="mobile-scrim" hidden></div>
-    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+    <section class="workspace">
+      <header class="topbar">
+        <button class="icon-button menu-button" id="menu-button" type="button" aria-label="開啟選單" aria-expanded="false"><span data-icon="menu"></span></button>
+        <div><p class="eyebrow">CVR GROUP · LYDIA KNOWLEDGE WORKSPACE</p><h1 id="page-title">資料狀態</h1></div>
+        <div class="topbar-actions">
+          <span class="truth-pill"><span class="status-dot"></span>資料建置中</span>
+          <button class="button button-primary" type="button" data-view-jump="records">開始整理</button>
+        </div>
+      </header>
+      <div class="truth-banner" role="status">
+        <strong>目前狀態：</strong>
+        <span>已找到 Lydia 歷史資料包，但尚未連接模型、PMS 或 Airbnb；畫面不會把歷史資料說成 AI 已處理成果。</span>
+      </div>
+      <main id="main-content" tabindex="-1"></main>
+    </section>
+  </div>
 
-    <script src="app.js" defer></script>
-  </body>
+  <div class="modal" id="editor-modal" hidden aria-hidden="true">
+    <div class="modal-scrim" data-close-modal></div>
+    <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <header class="modal-header"><div><p class="eyebrow">新增訓練規則</p><h2 id="modal-title">建立 Lydia 指南</h2></div><button class="icon-button" type="button" data-close-modal aria-label="關閉"><span data-icon="close"></span></button></header>
+      <form id="guidance-form" class="modal-form">
+        <label>何時套用<input name="condition" required placeholder="例如：房客詢問提早入住"></label>
+        <label>應該怎麼做<textarea name="do" required placeholder="例如：先查清潔進度，再告知房客確認時間"></textarea></label>
+        <label>禁止事項<textarea name="dont" required placeholder="例如：未確認前不可承諾入住時間"></textarea></label>
+        <label>資料來源<input name="source" required placeholder="例如：Lydia 人工核准／歷史回覆 #123"></label>
+        <div class="modal-actions"><button class="button button-secondary" type="button" data-close-modal>取消</button><button class="button button-primary" type="submit">儲存為待核准指南</button></div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast-region" id="toast-region" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
 </html>
-
