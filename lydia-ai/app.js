@@ -33,6 +33,17 @@ const journeyStages = [
   { id: 'poststay', label: '退房後', note: '評價、退款、後續' }
 ];
 
+const stageModules = {
+  inquiry: { goal:'辨識房客最初需求，先回答核心問題，不急著假設對方會下訂。', scenarios:['日期與價格','房源設備','地點與交通','是否仍可預訂'] },
+  qualify: { goal:'釐清人數、租期與特殊需求，找出需要查證或轉人工的條件。', scenarios:['入住人數','寵物政策','長租需求','活動與特殊用途'] },
+  booked: { goal:'只有確認訂單後才使用此模組，處理付款、修改與訂單政策。', scenarios:['訂單確認','付款問題','日期變更','取消政策'] },
+  prearrival: { goal:'在入住前提供正確房源資訊，所有細節必須對應到該筆訂單。', scenarios:['抵達時間','停車','行李寄放','門鎖與地址'] },
+  checkin: { goal:'優先協助房客安全、順利進入房源，失敗時立即轉人工。', scenarios:['找不到入口','密碼失效','提早抵達','現場聯絡'] },
+  stay: { goal:'處理住宿期間的使用問題、維修與客訴，避免未確認的補償承諾。', scenarios:['Wi-Fi','設備故障','清潔問題','噪音與客訴'] },
+  checkout: { goal:'明確說明退房動作與時間，需要例外時先查房務安排。', scenarios:['退房時間','延後退房','鑰匙處理','垃圾與清潔'] },
+  poststay: { goal:'處理評價、遺留物與金錢爭議；高風險內容必須交由 Lydia。', scenarios:['評價邀請','遺留物品','押金問題','退款與補償'] }
+};
+
 const publicPairs = [
   { id: 'PAIR-0001', thread_id: 'sample-a', listing_name: '公開遮蔽樣本', guest_message: 'Do I need bed linens?', host_reply: 'We will make the beds for you!', intent: 'amenities', risk_level: 'medium_risk', notes: '需確認是否適用所有房源。' },
   { id: 'PAIR-0002', thread_id: 'sample-b', listing_name: '公開遮蔽樣本', guest_message: 'I intend to stay 6 months.', host_reply: 'Like the other listing you saw, we took bookings with min stay a month.', intent: 'long_stay', risk_level: 'medium_risk', notes: '歷史上下文不足。' },
@@ -66,7 +77,7 @@ const state = {
   view: location.hash.replace('#','') || 'journey', recordFilter: 'all', recordSearch: '', sourceSearch: '', inboxSearch: '', inboxFilter: 'open', listingFilter: 'all',
   reviews: safeJson(localStorage.getItem('lydia-record-reviews'), {}), customGuidance: safeJson(localStorage.getItem('lydia-custom-guidance'), []),
   stageOverrides: safeJson(localStorage.getItem('lydia-stage-overrides'), {}), importedFiles: [], importedPairs: [], importedMessages: [],
-  conversationStates: safeJson(localStorage.getItem('lydia-conversation-states'), {}), selectedListing: '公開遮蔽樣本', selectedThread: 'sample-a', selectedSource: null
+  conversationStates: safeJson(localStorage.getItem('lydia-conversation-states'), {}), stageDrafts: safeJson(localStorage.getItem('lydia-stage-drafts'), {}), selectedListing: '公開遮蔽樣本', selectedThread: 'sample-a', selectedSource: null, editingStage: null
 };
 const titles = { journey:'AI 收件匣', status:'資料狀態', records:'歷史回覆庫', questions:'問題與情境', guidance:'Lydia 回覆指南', tests:'測試與評分', sources:'原始資料' };
 const main = document.querySelector('#main-content');
@@ -111,10 +122,16 @@ function formatThreadTime(thread) {
   return thread.messages.at(-1)?.timestamp || `${thread.messages.length} 則`;
 }
 
+function stageHistory(stageId) {
+  const threads=conversations().filter(c=>inferStage(c).id===stageId);
+  const replies=threads.flatMap(c=>c.messages.filter(m=>m.speaker==='host').map(m=>({listing:c.listing,text:m.message_cleaned}))).filter(r=>r.text);
+  return {threads,replies};
+}
+
 function renderJourneyFlow(thread) {
-  const stage=inferStage(thread), index=journeyStages.findIndex(s=>s.id===stage.id);
-  const progress=Math.max(0,index)/(journeyStages.length-1)*100;
-  return `<section class="journey-flow" aria-label="對話進度"><div class="journey-flow-head"><div><strong>對話進度</strong><span>${esc(stage.basis)}；點選節點可人工校正</span></div>${badge(stage.basis,'blue')}</div><div class="flow-canvas"><div class="flow-line" aria-hidden="true"><span style="--flow-progress:${progress}%"></span></div><div class="flow-track">${journeyStages.map((s,i)=>`<button type="button" class="flow-node ${i<index?'is-done':''} ${i===index?'is-current':''}" data-stage="${s.id}" aria-current="${i===index?'step':'false'}" aria-label="將對話進度改為${s.label}"><span class="flow-dot">${i<index?icon('check'):i+1}</span><strong>${s.label}</strong><small>${s.note}</small></button>`).join('')}</div></div><p class="flow-branch"><strong>流程判定：</strong>前兩階段可能不會下訂；「已訂房」必須有 PMS／Airbnb 訂單狀態或人工確認。</p></section>`;
+  const stage=inferStage(thread);
+  const positions=[[34,70],[190,18],[348,70],[505,16],[666,16],[505,132],[666,132],[830,76]];
+  return `<section class="journey-flow training-map" aria-label="AI 回覆情境地圖"><div class="journey-flow-head"><div><strong>AI 回覆情境地圖</strong><span>每個節點是一組可訓練情境；房客不一定會走完所有節點</span></div>${badge(`目前：${journeyStages.find(s=>s.id===stage.id)?.label||'初次詢問'}`,'blue')}</div><div class="training-canvas"><svg class="training-wires" viewBox="0 0 980 230" aria-hidden="true"><path d="M78 94 C130 94 140 42 204 42"></path><path d="M238 42 C286 42 300 94 362 94"></path><path d="M396 94 C448 94 452 40 519 40"></path><path d="M553 40 H680"></path><path d="M396 100 C444 112 450 156 519 156" class="optional"></path><path d="M553 156 H680"></path><path d="M714 156 C770 156 780 100 844 100"></path><path d="M78 104 C116 135 126 184 188 184" class="exit-path"></path><circle cx="204" cy="184" r="8" class="exit-dot"></circle></svg><span class="exit-label">未下訂／暫停</span>${journeyStages.map((s,i)=>{const history=stageHistory(s.id),pos=positions[i];return `<button type="button" class="training-node ${s.id===stage.id?'is-current':''}" style="--node-x:${pos[0]}px;--node-y:${pos[1]}px;--node-delay:${i*45}ms" data-stage-module="${s.id}" aria-current="${s.id===stage.id?'step':'false'}"><span class="training-orb"><span>${i+1}</span></span><strong>${s.label}</strong><small>${history.threads.length} 組歷史對話</small></button>`;}).join('')}</div><div class="map-legend"><span><i class="legend-current"></i>目前判定</span><span><i class="legend-path"></i>可能路徑</span><span><i class="legend-optional"></i>可跳過／分支</span><span>點節點開啟訓練設定</span></div></section>`;
 }
 function renderJourney() {
   const all=conversations(), listings=[...new Set(all.map(c=>c.listing))];
@@ -148,6 +165,17 @@ function goToView(view){if(!renderers[view])return;state.view=view;history.repla
 function toast(title,message){const n=document.createElement('div');n.className='toast';n.innerHTML=`${icon('check')}<div><strong>${esc(title)}</strong><p>${esc(message)}</p></div><button aria-label="關閉">${icon('close')}</button>`;n.querySelector('button').onclick=()=>n.remove();document.querySelector('#toast-region').append(n);setTimeout(()=>n.remove(),4500);}
 function parseCsv(text){const rows=[];let row=[],cell='',quoted=false;for(let i=0;i<text.length;i++){const c=text[i],next=text[i+1];if(c==='"'&&quoted&&next==='"'){cell+='"';i++;}else if(c==='"'){quoted=!quoted;}else if(c===','&&!quoted){row.push(cell);cell='';}else if((c==='\n'||c==='\r')&&!quoted){if(c==='\r'&&next==='\n')i++;row.push(cell);if(row.some(v=>v!==''))rows.push(row);row=[];cell='';}else cell+=c;}if(cell||row.length){row.push(cell);rows.push(row);}const head=rows.shift()||[];return rows.map(r=>Object.fromEntries(head.map((h,i)=>[h.trim(),r[i]??''])));}
 async function importFiles(files){for(const file of files){const raw=await file.text();let rows=null;try{if(file.name.endsWith('.csv'))rows=parseCsv(raw);else if(file.name.endsWith('.jsonl'))rows=raw.split(/\r?\n/).filter(Boolean).map(line=>JSON.parse(line));else if(file.name.endsWith('.json')){const parsed=JSON.parse(raw);rows=Array.isArray(parsed)?parsed:[parsed];}}catch(error){toast(`無法解析 ${file.name}`,error.message);continue;}const item={name:file.name,raw,kind:rows?'table':'text',rows:rows||[]};state.importedFiles.push(item);if(file.name==='cleaned_messages.csv')state.importedMessages=rows.map((r,i)=>({...r,_order:i}));if(file.name==='conversation_pairs.jsonl')state.importedPairs=rows;}state.selectedSource=state.importedFiles.length-1;toast('原始檔已在瀏覽器開啟',`${files.length} 個檔案；沒有上傳到伺服器。`);render();}
+function closeStageDrawer(){const drawer=document.querySelector('#stage-drawer');drawer.classList.remove('is-open');drawer.setAttribute('aria-hidden','true');setTimeout(()=>{drawer.hidden=true;},260);}
+function openStageDrawer(stageId){
+  const stage=journeyStages.find(s=>s.id===stageId);if(!stage)return;state.editingStage=stageId;
+  const module=stageModules[stageId],history=stageHistory(stageId),drawer=document.querySelector('#stage-drawer'),content=document.querySelector('#stage-drawer-content');
+  const replies=history.replies.slice(0,4);
+  content.innerHTML=`<header class="drawer-header"><div><p class="eyebrow">AI 回覆訓練模組</p><h2 id="stage-drawer-title">${esc(stage.label)}</h2></div><button class="icon-button" type="button" data-close-stage aria-label="關閉">${icon('close')}</button></header><div class="drawer-body"><section class="module-intro"><span class="module-number">${journeyStages.findIndex(s=>s.id===stageId)+1}</span><div><h3>${esc(module.goal)}</h3><p>這是獨立情境模組，不代表每位房客都一定會經過。</p></div></section><div class="module-stats"><div><strong>${history.threads.length}</strong><span>組對應對話</span></div><div><strong>${history.replies.length}</strong><span>則 Lydia 回覆</span></div><div><strong>${module.scenarios.length}</strong><span>個初始情境</span></div></div><section class="drawer-section"><div class="drawer-section-title"><h3>常見詢問情境</h3>${badge('可持續新增','blue')}</div><div class="scenario-chips">${module.scenarios.map(s=>`<span>${esc(s)}</span>`).join('')}<button type="button" disabled aria-label="新增情境">${icon('plus')}新增</button></div></section><section class="drawer-section"><div class="drawer-section-title"><h3>Lydia 歷史回覆</h3>${badge(state.importedMessages.length?'本機原始資料':'遮蔽樣本',state.importedMessages.length?'green':'neutral')}</div>${replies.length?`<div class="history-snippets">${replies.map(r=>`<article><small>${esc(r.listing)}</small><p>${esc(r.text)}</p></article>`).join('')}</div>`:'<p class="empty-copy">目前載入的資料中沒有符合此模組的 Lydia 回覆；開啟完整 cleaned_messages.csv 後會重新對應。</p>'}</section><form id="stage-training-form" class="drawer-section training-form"><div class="drawer-section-title"><h3>AI 回覆原則與提示詞</h3>${badge('草稿','amber')}</div><label for="stage-instructions">這個情境下，AI 應該怎麼判斷與回覆？</label><textarea id="stage-instructions" name="instructions" placeholder="例如：先確認該房源最新資料；直接回答房客問題；若涉及金錢、承諾或資料衝突，轉交 Lydia。">${esc(state.stageDrafts[stageId]||'')}</textarea><p>儲存後只會保存在這個瀏覽器，尚未寫入正式 AI 模型。</p><div class="drawer-actions"><button class="button button-secondary" type="button" data-set-current-stage="${stageId}">設為目前對話情境</button><button class="button button-primary" type="submit">儲存訓練草稿</button></div></form></div>`;
+  content.querySelector('[data-close-stage]').onclick=closeStageDrawer;
+  content.querySelector('[data-set-current-stage]').onclick=()=>{const c=selectedConversation();if(!c)return;state.stageOverrides[c.id]=stageId;localStorage.setItem('lydia-stage-overrides',JSON.stringify(state.stageOverrides));toast('目前對話情境已校正',stage.label);closeStageDrawer();render();};
+  content.querySelector('#stage-training-form').onsubmit=e=>{e.preventDefault();state.stageDrafts[stageId]=new FormData(e.currentTarget).get('instructions').trim();localStorage.setItem('lydia-stage-drafts',JSON.stringify(state.stageDrafts));toast(`${stage.label}訓練草稿已儲存`,'目前只保存在此瀏覽器，尚未套用到模型。');};
+  drawer.hidden=false;drawer.setAttribute('aria-hidden','false');setTimeout(()=>drawer.classList.add('is-open'),10);content.querySelector('[data-close-stage]').focus();
+}
 function bindViewEvents(){
   main.querySelectorAll('[data-view-jump]').forEach(b=>b.onclick=()=>goToView(b.dataset.viewJump));
   main.querySelectorAll('[data-listing]').forEach(b=>b.onclick=()=>{state.selectedListing=b.dataset.listing;state.selectedThread='';render();});
@@ -156,7 +184,7 @@ function bindViewEvents(){
   const listingFilter=main.querySelector('#listing-filter');listingFilter?.addEventListener('change',()=>{state.listingFilter=listingFilter.value;state.selectedThread='';render();});
   const inboxSearch=main.querySelector('#inbox-search');inboxSearch?.addEventListener('input',()=>{state.inboxSearch=inboxSearch.value;render();const next=main.querySelector('#inbox-search');next?.focus();next?.setSelectionRange(state.inboxSearch.length,state.inboxSearch.length);});
   main.querySelector('[data-conversation-state]')?.addEventListener('click',e=>{const c=selectedConversation();if(!c)return;state.conversationStates[c.id]=e.currentTarget.dataset.conversationState;localStorage.setItem('lydia-conversation-states',JSON.stringify(state.conversationStates));toast(state.conversationStates[c.id]==='closed'?'對話已移至「已結束」':'對話已重新開啟',c.label);render();});
-  main.querySelectorAll('[data-stage]').forEach(b=>b.onclick=()=>{const c=selectedConversation();if(!c)return;state.stageOverrides[c.id]=b.dataset.stage;localStorage.setItem('lydia-stage-overrides',JSON.stringify(state.stageOverrides));toast('旅程階段已人工校正',journeyStages.find(s=>s.id===b.dataset.stage)?.label||'');render();});
+  main.querySelectorAll('[data-stage-module]').forEach(b=>b.onclick=()=>openStageDrawer(b.dataset.stageModule));
   const rs=main.querySelector('#record-search');rs?.addEventListener('input',()=>{state.recordSearch=rs.value;render();const next=main.querySelector('#record-search');next?.focus();next?.setSelectionRange(state.recordSearch.length,state.recordSearch.length);});
   main.querySelectorAll('[data-record-filter]').forEach(b=>b.onclick=()=>{state.recordFilter=b.dataset.recordFilter;render();});
   main.querySelectorAll('[data-review]').forEach(b=>b.onclick=()=>{state.reviews[b.dataset.recordId]=b.dataset.review;localStorage.setItem('lydia-record-reviews',JSON.stringify(state.reviews));toast(b.dataset.recordId,'人工審核狀態已保存於此瀏覽器。');render();});
@@ -180,6 +208,7 @@ sidebar.addEventListener('focusout',scheduleHoverSidebarClose);
 document.querySelectorAll('.nav-item').forEach(n=>n.onclick=()=>goToView(n.dataset.view));
 document.querySelector('#menu-button').onclick=()=>{const s=document.querySelector('#sidebar'),open=!s.classList.contains('is-open');s.classList.toggle('is-open',open);document.querySelector('#mobile-scrim').hidden=!open;document.querySelector('#menu-button').setAttribute('aria-expanded',String(open));};
 document.querySelector('#mobile-scrim').onclick=closeMenu;document.querySelectorAll('[data-close-modal]').forEach(n=>n.onclick=closeGuidanceModal);
+document.querySelectorAll('[data-close-stage]').forEach(n=>n.onclick=closeStageDrawer);
 document.querySelector('#source-file-input').addEventListener('change',e=>{importFiles([...e.target.files]);e.target.value='';});
 document.querySelector('#guidance-form').addEventListener('submit',e=>{e.preventDefault();const d=new FormData(e.currentTarget);state.customGuidance.push({condition:d.get('condition').trim(),do:d.get('do').trim(),dont:d.get('dont').trim(),source:d.get('source').trim(),status:'待 Lydia 核准'});localStorage.setItem('lydia-custom-guidance',JSON.stringify(state.customGuidance));e.currentTarget.reset();closeGuidanceModal();toast('規則草稿已保存','目前只保存在此瀏覽器。');render();});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeGuidanceModal();closeMenu();}});window.addEventListener('hashchange',()=>{state.view=location.hash.replace('#','')||'journey';render();});hydrateIcons();render();
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeGuidanceModal();closeStageDrawer();closeMenu();}});window.addEventListener('hashchange',()=>{state.view=location.hash.replace('#','')||'journey';render();});hydrateIcons();render();
