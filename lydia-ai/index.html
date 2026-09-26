@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex,nofollow" />
+    <meta
+      name="description"
+      content="Lydia AI Host Console — 以資深房東經驗為核心、可客製且可審核的房客訊息控制台。"
+    />
+    <title>Lydia AI Host Console</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">跳至主要內容</a>
+
+    <div class="app-shell">
+      <aside class="sidebar" id="sidebar" aria-label="主要導覽">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">L</div>
+          <div>
+            <div class="brand-name">Lydia AI</div>
+            <div class="brand-subtitle">Host Console</div>
+          </div>
+        </div>
+
+        <nav class="side-nav" aria-label="控制台功能">
+          <button class="nav-item is-active" type="button" data-view="overview">
+            <span data-icon="grid"></span><span>營運總覽</span>
+          </button>
+          <button class="nav-item" type="button" data-view="inbox">
+            <span data-icon="message"></span><span>AI 收件匣</span><span class="nav-badge">4</span>
+          </button>
+          <button class="nav-item" type="button" data-view="persona">
+            <span data-icon="spark"></span><span>Lydia 回覆方式</span>
+          </button>
+          <button class="nav-item" type="button" data-view="rules">
+            <span data-icon="shield"></span><span>自動回覆規則</span>
+          </button>
+          <button class="nav-item" type="button" data-view="knowledge">
+            <span data-icon="book"></span><span>房源知識庫</span><span class="nav-dot" aria-label="有資料待確認"></span>
+          </button>
+          <button class="nav-item" type="button" data-view="insights">
+            <span data-icon="chart"></span><span>學習與成效</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-bottom">
+          <div class="connection-card">
+            <div class="connection-head">
+              <span class="status-dot is-demo"></span>
+              <strong>示範模式</strong>
+            </div>
+            <p>尚未連接 Airbnb，不會傳送真實訊息。</p>
+          </div>
+          <button class="profile-button" type="button" data-action="profile">
+            <span class="avatar">LY</span>
+            <span><strong>Lydia 團隊</strong><small>管理員</small></span>
+            <span data-icon="chevron"></span>
+          </button>
+        </div>
+      </aside>
+
+      <div class="main-column">
+        <header class="topbar">
+          <button class="icon-button menu-button" id="menu-button" type="button" aria-label="開啟選單" aria-expanded="false">
+            <span data-icon="menu"></span>
+          </button>
+          <div class="page-title-wrap">
+            <p class="eyebrow">CVR Group · 48 個 Airbnb 刊登</p>
+            <h1 id="page-title">營運總覽</h1>
+          </div>
+          <div class="topbar-actions">
+            <div class="mode-pill" title="目前為人工審核模式">
+              <span class="status-dot is-review"></span>
+              <span>人工審核模式</span>
+            </div>
+            <button class="icon-button" type="button" aria-label="通知">
+              <span data-icon="bell"></span><span class="notification-count">3</span>
+            </button>
+            <button class="button button-primary" type="button" data-view-jump="inbox">
+              <span data-icon="message"></span>審核 4 則回覆
+            </button>
+          </div>
+        </header>
+
+        <div class="demo-banner" role="status">
+          <span data-icon="info"></span>
+          <span><strong>本機互動原型：</strong>所有核准、傳送與設定變更只會保存在這台電腦的瀏覽器中。</span>
+          <button type="button" data-action="dismiss-banner" aria-label="關閉提示"><span data-icon="close"></span></button>
+        </div>
+
+        <main id="main-content" tabindex="-1"></main>
+      </div>
+    </div>
+
+    <div class="mobile-scrim" id="mobile-scrim" hidden></div>
+    <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+
+    <script src="app.js" defer></script>
+  </body>
+</html>
+
