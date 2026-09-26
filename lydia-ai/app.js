@@ -113,7 +113,8 @@ function formatThreadTime(thread) {
 
 function renderJourneyFlow(thread) {
   const stage=inferStage(thread), index=journeyStages.findIndex(s=>s.id===stage.id);
-  return `<section class="journey-flow" aria-label="房客旅程階段"><div class="journey-flow-head"><div><strong>房客旅程</strong><span>${esc(stage.basis)}；未連接 Airbnb 訂單狀態</span></div>${badge(stage.basis,'blue')}</div><div class="flow-track">${journeyStages.map((s,i)=>`<button type="button" class="flow-node ${i<index?'is-done':''} ${i===index?'is-current':''}" data-stage="${s.id}" aria-current="${i===index?'step':'false'}"><span class="flow-dot">${i<index?icon('check'):i+1}</span><strong>${s.label}</strong><small>${s.note}</small></button>`).join('')}</div><p class="flow-branch"><strong>轉換關卡：</strong>前兩階段可能不會下訂；「已訂房」只有在 PMS／Airbnb 訂單狀態或人工確認後才能成立。點任一階段可人工校正並保存在此瀏覽器。</p></section>`;
+  const progress=Math.max(0,index)/(journeyStages.length-1)*100;
+  return `<section class="journey-flow" aria-label="對話進度"><div class="journey-flow-head"><div><strong>對話進度</strong><span>${esc(stage.basis)}；點選節點可人工校正</span></div>${badge(stage.basis,'blue')}</div><div class="flow-canvas"><div class="flow-line" aria-hidden="true"><span style="--flow-progress:${progress}%"></span></div><div class="flow-track">${journeyStages.map((s,i)=>`<button type="button" class="flow-node ${i<index?'is-done':''} ${i===index?'is-current':''}" data-stage="${s.id}" aria-current="${i===index?'step':'false'}" aria-label="將對話進度改為${s.label}"><span class="flow-dot">${i<index?icon('check'):i+1}</span><strong>${s.label}</strong><small>${s.note}</small></button>`).join('')}</div></div><p class="flow-branch"><strong>流程判定：</strong>前兩階段可能不會下訂；「已訂房」必須有 PMS／Airbnb 訂單狀態或人工確認。</p></section>`;
 }
 function renderJourney() {
   const all=conversations(), listings=[...new Set(all.map(c=>c.listing))];
@@ -167,6 +168,15 @@ function bindViewEvents(){
 function openGuidanceModal(){const m=document.querySelector('#editor-modal');m.hidden=false;m.setAttribute('aria-hidden','false');m.querySelector('input').focus();}
 function closeGuidanceModal(){const m=document.querySelector('#editor-modal');m.hidden=true;m.setAttribute('aria-hidden','true');}
 function closeMenu(){document.querySelector('#sidebar').classList.remove('is-open');document.querySelector('#mobile-scrim').hidden=true;document.querySelector('#menu-button').setAttribute('aria-expanded','false');}
+const sidebar=document.querySelector('#sidebar');
+const hoverNavigation=window.matchMedia('(hover: hover) and (pointer: fine)');
+let sidebarCloseTimer;
+function openHoverSidebar(){if(!hoverNavigation.matches)return;clearTimeout(sidebarCloseTimer);sidebar.classList.add('is-hover-open');}
+function scheduleHoverSidebarClose(){if(!hoverNavigation.matches)return;clearTimeout(sidebarCloseTimer);sidebarCloseTimer=setTimeout(()=>{if(!sidebar.matches(':hover')&&!sidebar.matches(':focus-within'))sidebar.classList.remove('is-hover-open');},2000);}
+sidebar.addEventListener('pointerenter',openHoverSidebar);
+sidebar.addEventListener('pointerleave',scheduleHoverSidebarClose);
+sidebar.addEventListener('focusin',openHoverSidebar);
+sidebar.addEventListener('focusout',scheduleHoverSidebarClose);
 document.querySelectorAll('.nav-item').forEach(n=>n.onclick=()=>goToView(n.dataset.view));
 document.querySelector('#menu-button').onclick=()=>{const s=document.querySelector('#sidebar'),open=!s.classList.contains('is-open');s.classList.toggle('is-open',open);document.querySelector('#mobile-scrim').hidden=!open;document.querySelector('#menu-button').setAttribute('aria-expanded',String(open));};
 document.querySelector('#mobile-scrim').onclick=closeMenu;document.querySelectorAll('[data-close-modal]').forEach(n=>n.onclick=closeGuidanceModal);
