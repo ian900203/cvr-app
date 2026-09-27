@@ -73,13 +73,24 @@ const sourcePackages = [
   ['common_sop.md','1 份','入住、退房、Wi-Fi、停車等 SOP 草稿']
 ];
 
+// Keep browser-only work created by the earlier interface after the product rename.
+// These keys are internal compatibility keys; no old name is rendered in the UI.
+const legacyStorageKeys = ['record-reviews', 'custom-guidance', 'stage-overrides', 'conversation-states', 'stage-drafts'];
+legacyStorageKeys.forEach(key => {
+  const current = `ai-reply-${key}`;
+  const legacy = `lydia-${key}`;
+  if (localStorage.getItem(current) === null && localStorage.getItem(legacy) !== null) {
+    localStorage.setItem(current, localStorage.getItem(legacy));
+  }
+});
+
 const state = {
   view: location.hash.replace('#','') || 'journey', recordFilter: 'all', recordSearch: '', sourceSearch: '', inboxSearch: '', inboxFilter: 'open', listingFilter: 'all',
   reviews: safeJson(localStorage.getItem('ai-reply-record-reviews'), {}), customGuidance: safeJson(localStorage.getItem('ai-reply-custom-guidance'), []),
   stageOverrides: safeJson(localStorage.getItem('ai-reply-stage-overrides'), {}), importedFiles: [], importedPairs: [], importedMessages: [],
   conversationStates: safeJson(localStorage.getItem('ai-reply-conversation-states'), {}), stageDrafts: safeJson(localStorage.getItem('ai-reply-stage-drafts'), {}), selectedListing: '公開遮蔽樣本', selectedThread: 'sample-a', selectedSource: null, editingStage: null
 };
-const titles = { journey:'AI 收件匣', status:'資料狀態', records:'歷史回覆庫', questions:'問題與情境', guidance:'AI 回覆指南', tests:'測試與評分', sources:'原始資料' };
+const titles = { journey:'AI 收件匣', status:'資料狀態', records:'歷史回覆庫', questions:'問題與情境', guidance:'回覆規則', tests:'測試與評分', sources:'原始資料' };
 const main = document.querySelector('#main-content');
 function safeJson(value, fallback) { try { return value ? JSON.parse(value) : fallback; } catch { return fallback; } }
 function icon(name) { return `<svg viewBox="0 0 24 24" aria-hidden="true">${icons[name] || icons.file}</svg>`; }
